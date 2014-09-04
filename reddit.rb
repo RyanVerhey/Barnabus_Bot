@@ -7,6 +7,28 @@ class YogscastKim
     @cookie = data[1]
   end
 
+  def submit(title, message, sr, link = true, save = true, resubmit = false)
+    kind = link ? "link" : "self"
+    url = link ? message : false
+    text = link ? false : message
+    options = { body: {
+      kind: kind,
+      text: text,
+      url: url,
+      sr: sr,
+      title: title,
+      save: save,
+      resubmit: resubmit,
+      api_type: 'json',
+      uh: @modhash,
+    }, headers: {
+      'User-Agent' => 'Barnabus_Bot, proudly built by /u/GildedGrizzly',
+      'X-Modhash' => @modhash,
+      'Cookie' => 'reddit_session=' + @cookie
+    } }
+    response = YogscastKim.post('http://www.reddit.com/api/submit', options)
+  end
+
   private
 
   def self.login
