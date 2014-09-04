@@ -1,4 +1,5 @@
 class YogscastKim
+  include HTTParty
 
   def initialize
     @modhash = YogscastKim.login
