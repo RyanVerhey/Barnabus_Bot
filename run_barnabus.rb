@@ -6,4 +6,5 @@ require 'json'
 require_relative 'reddit'
 
 reddit = YogscastKim.new
-puts reddit
+# puts reddit
+puts reddit.submit('Test title', 'Test message', 'GildedGrizzly', false)
