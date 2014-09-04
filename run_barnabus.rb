@@ -5,3 +5,5 @@ require 'httparty'
 require 'json'
 require_relative 'reddit'
 
+reddit = YogscastKim.new
+puts reddit
