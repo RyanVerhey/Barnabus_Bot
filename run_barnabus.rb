@@ -8,4 +8,4 @@ require_relative 'reddit'
 
 reddit = YogscastKim.new
 # puts reddit
-puts reddit.submit('Test title', 'Test message', 'GildedGrizzly', false)
+# puts reddit.submit('Test Video', 'https://www.youtube.com/watch?v=S5_mHgxSRzQ', 'GildedGrizzly')
