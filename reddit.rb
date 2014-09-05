@@ -3,6 +3,7 @@ class YogscastKim
 
   def initialize
     data = YogscastKim.login
+    # puts data
     @modhash = data[0]
     @cookie = data[1]
   end
