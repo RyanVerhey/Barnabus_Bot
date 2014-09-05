@@ -3,6 +3,7 @@ require 'bundler/setup'
 require 'net/http'
 require 'httparty'
 require 'json'
+require 'yaml'
 require_relative 'reddit'
 
 reddit = YogscastKim.new
