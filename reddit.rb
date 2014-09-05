@@ -37,8 +37,9 @@ class YogscastKim
     password = ENV['PASS']
     options = { body: { user: username, passwd: password, api_type: 'json' } }
     response = YogscastKim.post("http://www.reddit.com/api/login/", options)
-    puts [response['json']['data']['modhash'], response['json']['data']['cookie']]
-    [response['json']['data']['modhash'], response['json']['data']['cookie']]
+    data = response['json']['data']
+    # puts response
+    return [data['modhash'], data['cookie']]
   end
 
   def to_s
