@@ -5,6 +5,7 @@ require 'httparty'
 require 'json'
 require 'yaml'
 require_relative 'reddit'
+require_relative 'youtube'
 
 reddit = YogscastKim.new
 # puts reddit
