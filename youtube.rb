@@ -15,6 +15,16 @@ class YouTube
     videos
   end
 
+  def save_latest_video(video)
+    p video
+    data = YAML.load(File.read("data.yaml"))
+    data = {} if !data
+    data["latest_#{video.author}_video".to_sym] = { id: video.id, timestamp: video.updated_at, author: video.author }
+    File.open('data.yaml', 'w') { |f| f.write(data.to_yaml) }
+  end
+
+end
+
 class Video
   attr_reader :id, :updated_at, :url, :title, :author
 
