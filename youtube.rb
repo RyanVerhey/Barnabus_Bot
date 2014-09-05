@@ -4,6 +4,11 @@ class YouTube
     @client = YouTubeIt::Client.new(:dev_key => ENV['YTKEY'])
   end
 
+  def get_new_videos
+    videos = fetch_videos
+    save_latest_video(videos.first)
+  end
+
   def fetch_videos
     kim = @client.profile('yogscastkim')
     activity = @client.activity('yogscastkim')
