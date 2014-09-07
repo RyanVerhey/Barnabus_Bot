@@ -30,7 +30,7 @@ class YouTube
         end
       end
     end
-    videos
+    videos.sort_by! { |video| video.published_at }
   end
 
   def save_latest_video(video)
