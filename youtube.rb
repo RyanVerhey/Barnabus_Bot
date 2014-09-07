@@ -33,8 +33,7 @@ class YouTube
     videos.sort_by! { |video| video.published_at }
   end
 
-  def save_latest_video(video)
-    p video
+  def self.save_video_data(video)
     data = YAML.load(File.read("data.yaml"))
     data = {} if !data
     data["latest_#{video.author}_video".to_sym] = { id: video.id, timestamp: video.updated_at, author: video.author }
