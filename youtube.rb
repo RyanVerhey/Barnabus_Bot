@@ -40,6 +40,12 @@ class YouTube
     File.open('data.yaml', 'w') { |f| f.write(data.to_yaml) }
   end
 
+  def get_last_saved_video
+    last_saved_video = YAML.load(File.read("data.yaml"))
+    last_saved_video = {} if !last_saved_video
+    last_saved_video[:latest_video]
+  end
+
 end
 
 class Video
