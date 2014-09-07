@@ -11,7 +11,7 @@ class YouTube
     new_videos = []
     videos = fetch_recent_videos
     videos.each do |video|
-      if video.published_at > DateTime.parse(get_last_saved_video[:timestamp]).to_time
+      if video.published_at > newest_video_timestamp
         new_videos << video
       end
     end
