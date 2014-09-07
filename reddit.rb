@@ -3,7 +3,6 @@ class YogscastKim
 
   def initialize
     data = YogscastKim.login
-    # puts data
     @modhash = data[0]
     @cookie = data[1]
   end
@@ -38,7 +37,6 @@ class YogscastKim
     options = { body: { user: username, passwd: password, api_type: 'json' } }
     response = YogscastKim.post("http://www.reddit.com/api/login/", options)
     data = response['json']['data']
-    # puts response
     return [data['modhash'], data['cookie']]
   end
 
