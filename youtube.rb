@@ -8,8 +8,14 @@ class YouTube
   end
 
   def get_new_videos
-    videos = fetch_videos
-    save_latest_video(videos.first)
+    new_videos = []
+    videos = fetch_recent_videos
+    videos.each do |video|
+      if video.published_at > DateTime.parse(get_last_saved_video[:timestamp]).to_time
+        new_videos << video
+      end
+    end
+    new_videos
   end
 
   def fetch_videos
