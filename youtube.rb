@@ -3,6 +3,8 @@ class YouTube
 
   def initialize
     @client = YouTubeIt::Client.new(:dev_key => ENV['YTKEY'])
+    @new_videos = []
+    @channels = { yogscastkim: /.+/, yogscastlalna: /(F|f)lux (B|b)uddies/ }
   end
 
   def get_new_videos
