@@ -7,6 +7,7 @@ require 'json'
 require 'yaml'
 require_relative 'reddit'
 require_relative 'youtube'
+require_relative 'post_to_reddit'
 
 reddit_client = YogscastKim.new
 youtube_client = YouTube.new
