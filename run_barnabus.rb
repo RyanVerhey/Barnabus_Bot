@@ -15,6 +15,7 @@ youtube_client = YouTube.new
 
 if input.first == "save_newest"
   youtube_client.save_most_recent_video
+  puts "Saved newest video"
 else
   PostToReddit.post(youtube_client.new_videos, reddit_client)
 end
