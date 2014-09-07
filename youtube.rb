@@ -53,11 +53,11 @@ class YouTube
 end
 
 class Video
-  attr_reader :id, :updated_at, :url, :title, :author
+  attr_reader :id, :published_at, :url, :title, :author
 
-  def initialize(id, updated_at, title, author)
+  def initialize(id, published_at, title, author)
     @id = id
-    @updated_at = updated_at
+    @published_at = published_at
     @url = "http://www.youtube.com/watch?v=" + @id
     @title = title
     @author = author
