@@ -13,7 +13,7 @@ input = ARGV
 reddit_client = YogscastKim.new
 youtube_client = YouTube.new
 
-if input == "save_newest"
+if input.first == "save_newest"
   youtube_client.save_most_recent_video
 else
   PostToReddit.post(youtube_client.new_videos, reddit_client)
