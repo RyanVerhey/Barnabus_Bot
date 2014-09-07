@@ -18,9 +18,7 @@ class YouTube
     new_videos
   end
 
-  def fetch_videos
-    kim = @client.profile('yogscastkim')
-    activity = @client.activity('yogscastkim')
+  def fetch_recent_videos
     videos = []
     activity.each do |upload|
       video = @client.video_by(upload.video_id)
