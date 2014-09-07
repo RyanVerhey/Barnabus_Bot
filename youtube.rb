@@ -46,8 +46,8 @@ class YouTube
     last_saved_video[:latest_video] ? last_saved_video[:latest_video] : { }
   end
 
-  def self.save_most_recent_video(client)
-    YouTube.save_video_data(client.fetch_recent_videos.last)
+  def save_most_recent_video
+    YouTube.save_video_data(self.fetch_recent_videos.last)
   end
 
 end
