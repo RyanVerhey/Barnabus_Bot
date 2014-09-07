@@ -50,6 +50,17 @@ class YouTube
     YouTube.save_video_data(self.fetch_recent_videos.last)
   end
 
+  def newest_video_timestamp
+    last_saved_timestamp = self.get_last_saved_video[:timestamp]
+    (last_saved_timestamp = DateTime.parse(last_saved_timestamp).to_time) if last_saved_timestamp
+    if last_saved_timestamp
+      last_saved_timestamp
+    else
+      save_most_recent_video
+      Time.now
+    end
+  end
+
 end
 
 class Video
