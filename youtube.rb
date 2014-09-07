@@ -43,7 +43,7 @@ class YouTube
   def get_last_saved_video
     last_saved_video = YAML.load(File.read("data.yaml"))
     last_saved_video = {} if !last_saved_video
-    last_saved_video[:latest_video]
+    last_saved_video[:latest_video] ? last_saved_video[:latest_video] : { }
   end
 
   def self.save_most_recent_video(client)
