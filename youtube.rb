@@ -36,7 +36,7 @@ class YouTube
   def self.save_video_data(video)
     data = YAML.load(File.read("data.yaml"))
     data = {} if !data
-    data["latest_#{video.author}_video".to_sym] = { id: video.id, timestamp: video.updated_at, author: video.author }
+    data[:latest_video] = { id: video.id, timestamp: video.published_at.to_s, author: video.author, title: video.title }
     File.open('data.yaml', 'w') { |f| f.write(data.to_yaml) }
   end
 
