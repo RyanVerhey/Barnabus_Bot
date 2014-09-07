@@ -1,4 +1,5 @@
 class YouTube
+  attr_reader :client, :new_videos
 
   def initialize
     @client = YouTubeIt::Client.new(:dev_key => ENV['YTKEY'])
