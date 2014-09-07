@@ -20,9 +20,15 @@ class YouTube
 
   def fetch_recent_videos
     videos = []
-    activity.each do |upload|
-      video = @client.video_by(upload.video_id)
-      videos << Video.new(upload.video_id, video.updated_at, video.title, video.author.uri.split("/").last)
+    @channels.each do |channel_name, regex|
+      channel = @client.profile(channel_name.to_s)
+      activity = @client.activity(channel_name.to_s)
+      activity.each do |upload|
+        video = @client.video_by(upload.video_id)
+        if regex.match(video.title)
+          videos << Video.save_as_video(upload, video)
+        end
+      end
     end
     videos
   end
