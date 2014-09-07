@@ -9,7 +9,12 @@ require_relative 'reddit'
 require_relative 'youtube'
 require_relative 'post_to_reddit'
 
+input = ARGV
 reddit_client = YogscastKim.new
 youtube_client = YouTube.new
 
-PostToReddit.post(youtube_client.new_videos, reddit_client)
+if input == "save_newest"
+  youtube_client.save_most_recent_video
+else
+  PostToReddit.post(youtube_client.new_videos, reddit_client)
+end
