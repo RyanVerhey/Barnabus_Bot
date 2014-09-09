@@ -66,6 +66,14 @@ class YouTube
     end
   end
 
+  def self.get_video_time(&blk)
+    puts "Initializing YouTube:"
+    yt_time = Time.now
+    client = blk.call
+    puts Time.now - yt_time
+    client
+  end
+
 end
 
 class Video
