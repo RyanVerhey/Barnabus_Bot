@@ -21,7 +21,6 @@ class YouTube
   def fetch_recent_videos
     videos = []
     @channels.each do |channel_name, regex|
-      channel = @client.profile(channel_name.to_s)
       activity = @client.activity(channel_name.to_s)
       activity.each do |upload|
         video = @client.video_by(upload.video_id)
