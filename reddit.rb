@@ -4,7 +4,7 @@ class Reddit
   def self.submit_video(videos)
     video_to_post = videos.first
     if video_to_post
-      response = Reddit.submit(video_to_post.title, video_to_post.url, "GildedGrizzly")
+      response = Reddit.submit(video_to_post.title, video_to_post.url, "yogscastkim")
       if !response["json"]["errors"].first
         YouTube.save_video_data(video_to_post)
         puts "Video posted! #{response["json"]["data"]["url"]}"
