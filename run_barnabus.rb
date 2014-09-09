@@ -12,7 +12,8 @@ require_relative 'youtube'
 require_relative 'post_to_reddit'
 
 input = ARGV
-youtube_client = YouTube.new
+
+youtube_client = YouTube.get_video_time { YouTube.new }
 
 if input.first == "save_newest"
   youtube_client.save_most_recent_video
