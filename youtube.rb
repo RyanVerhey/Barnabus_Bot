@@ -3,7 +3,7 @@ class YouTube
 
   def initialize
     @client = YouTubeIt::Client.new(:dev_key => ENV['YTKEY'])
-    @channels = { yogscastkim: /.+/, yogscastlalna: /(F|f)lux (B|b)uddies/ }
+    @channels = YouTube.access_data("r")[:channels]
     @new_videos = get_new_videos
   end
 
@@ -53,9 +53,7 @@ class YouTube
   end
 
   def get_last_saved_video
-    last_saved_video = YAML.load(File.read(File.expand_path(File.dirname(__FILE__)) + "/data.yaml"))
-    last_saved_video = {} if !last_saved_video
-    last_saved_video[:latest_video] ? last_saved_video[:latest_video] : { }
+    last_saved_video = YouTube.access_data("r")[:latest_video]
   end
 
   def save_most_recent_video
