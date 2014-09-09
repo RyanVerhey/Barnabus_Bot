@@ -1,3 +1,5 @@
+start_time = Time.now
+
 require 'rubygems'
 require 'bundler/setup'
 require 'net/http'
@@ -19,3 +21,11 @@ if input.first == "save_newest"
 else
   PostToReddit.post(youtube_client.new_videos, reddit_client)
 end
+
+end_time = Time.now
+puts " "
+puts "Time Elapsed: " + (end_time - start_time).to_s
+puts " "
+puts "Start time: " + start_time.to_s
+puts "End time: " + end_time.to_s
+
