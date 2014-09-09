@@ -17,7 +17,6 @@ youtube_client = YouTube.get_video_time { YouTube.new }
 
 if input.first == "save_newest"
   youtube_client.save_most_recent_video
-  puts "Saved newest video"
 else
   Reddit.submit_video(youtube_client.new_videos)
 end
