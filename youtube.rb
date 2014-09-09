@@ -34,10 +34,22 @@ class YouTube
   end
 
   def self.save_video_data(video)
+    data = { latest_video: { id: video.id, timestamp: video.published_at.to_s, author: video.author, title: video.title, saved_at: Time.now } }
+    YouTube.access_data("w", data)
+  end
+
+  def self.access_data(read_write, *save_data)
     data = YAML.load(File.read(File.expand_path(File.dirname(__FILE__)) + "/data.yaml"))
     data = {} if !data
-    data[:latest_video] = { id: video.id, timestamp: video.published_at.to_s, author: video.author, title: video.title, saved_at: Time.now }
-    File.open(File.expand_path(File.dirname(__FILE__)) + "/data.yaml", 'w') { |f| f.write(data.to_yaml) }
+    case read_write
+    when 'r'
+      return data
+    when 'w'
+      save_data.first.each do |key, value|
+        data[key] = value
+      end
+      File.open(File.expand_path(File.dirname(__FILE__)) + "/data.yaml", 'w') { |f| f.write(data.to_yaml) }
+    end
   end
 
   def get_last_saved_video
