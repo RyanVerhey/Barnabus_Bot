@@ -1,4 +1,4 @@
-class YogscastKim
+class Reddit
   include HTTParty
 
   def initialize
