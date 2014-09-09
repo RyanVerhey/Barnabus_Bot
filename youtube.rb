@@ -3,7 +3,7 @@ class YouTube
 
   def initialize
     @client = YouTubeIt::Client.new(:dev_key => ENV['YTKEY'])
-    @channels = { yogscastkim: /.+/, yogscastlalna: /(F|f)lux (B|b)uddies/ }
+    @channels = YouTube.access_data("r")[:channels]
     @new_videos = get_new_videos
   end
 
@@ -21,8 +21,8 @@ class YouTube
   def fetch_recent_videos
     videos = []
     @channels.each do |channel_name, regex|
-      channel = @client.profile(channel_name.to_s)
       activity = @client.activity(channel_name.to_s)
+      puts "#{channel_name}: #{activity.length} videos"
       activity.each do |upload|
         video = @client.video_by(upload.video_id)
         if regex.match(video.title)
@@ -34,20 +34,35 @@ class YouTube
   end
 
   def self.save_video_data(video)
+    data = { latest_video: { id: video.id, timestamp: video.published_at.to_s, author: video.author, title: video.title, saved_at: Time.now } }
+    YouTube.access_data("w", data)
+  end
+
+  def self.access_data(read_write, *save_data)
     data = YAML.load(File.read(File.expand_path(File.dirname(__FILE__)) + "/data.yaml"))
     data = {} if !data
-    data[:latest_video] = { id: video.id, timestamp: video.published_at.to_s, author: video.author, title: video.title, saved_at: Time.now }
-    File.open(File.expand_path(File.dirname(__FILE__)) + "/data.yaml", 'w') { |f| f.write(data.to_yaml) }
+    case read_write
+    when 'r'
+      return data
+    when 'w'
+      save_data.first.each do |key, value|
+        data[key] = value
+      end
+      File.open(File.expand_path(File.dirname(__FILE__)) + "/data.yaml", 'w') { |f| f.write(data.to_yaml) }
+    end
   end
 
   def get_last_saved_video
-    last_saved_video = YAML.load(File.read(File.expand_path(File.dirname(__FILE__)) + "/data.yaml"))
-    last_saved_video = {} if !last_saved_video
-    last_saved_video[:latest_video] ? last_saved_video[:latest_video] : { }
+    last_saved_video = YouTube.access_data("r")[:latest_video]
   end
 
   def save_most_recent_video
-    YouTube.save_video_data(self.fetch_recent_videos.last)
+    if @new_videos.last
+      YouTube.save_video_data(@new_videos.last)
+      puts "Saved newest videos"
+    else
+      puts "No new video to save"
+    end
   end
 
   def newest_video_timestamp
@@ -59,6 +74,14 @@ class YouTube
       save_most_recent_video
       Time.now
     end
+  end
+
+  def self.get_video_time(&blk)
+    puts "Initializing YouTube:"
+    yt_time = Time.now
+    client = blk.call
+    puts Time.now - yt_time
+    client
   end
 
 end
