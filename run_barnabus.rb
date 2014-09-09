@@ -9,7 +9,6 @@ require 'json'
 require 'yaml'
 require_relative 'reddit'
 require_relative 'youtube'
-require_relative 'post_to_reddit'
 
 input = ARGV
 
