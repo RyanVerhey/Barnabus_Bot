@@ -22,6 +22,7 @@ class YouTube
     videos = []
     @channels.each do |channel_name, regex|
       activity = @client.activity(channel_name.to_s)
+      puts "#{channel_name}: #{activity.length} videos"
       activity.each do |upload|
         video = @client.video_by(upload.video_id)
         if regex.match(video.title)
