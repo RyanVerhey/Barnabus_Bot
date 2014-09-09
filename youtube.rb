@@ -47,7 +47,12 @@ class YouTube
   end
 
   def save_most_recent_video
-    YouTube.save_video_data(self.fetch_recent_videos.last)
+    if @new_videos.last
+      YouTube.save_video_data(@new_videos.last)
+      puts "Saved newest videos"
+    else
+      puts "No new video to save"
+    end
   end
 
   def newest_video_timestamp
