@@ -29,6 +29,13 @@ class YouTube
     @recent_videos = recent_videos
   end
 
+  def get_new_videos
+    new_videos = {}
+    # iterate through fetched videos
+    #   if YouTube.new?(channel,video_id)
+    #     add it to new videos with channel as key
+    @new_videos = new_videos
+  end
 end
 
 =begin
