@@ -2,9 +2,9 @@ start_time = Time.now
 
 require 'rubygems'
 require 'bundler/setup'
+require 'google/api_client'
 require 'net/http'
 require 'httparty'
-require 'youtube_it'
 require 'json'
 require 'yaml'
 require_relative 'reddit'
