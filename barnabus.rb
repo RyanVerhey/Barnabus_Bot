@@ -24,13 +24,13 @@ when "update"
 when "help"
   puts "Hi, I'm Barnabus! Here's a list of my commands:"
   puts "  'run':      Searches for new videos and posts them to reddit."
-  puts "  'update':   Only updates the most recent videos in the database, doesn't post anything to reddit."
+  puts "  'update':   Only updates the most recent videos in the database, doesn't post anything to reddit. If it is a new channel/subreddit, initializes the values."
   puts "  'help':     I hope you know what this does :)"
 else
   puts "That command is not recognized. Type 'help' for a list of commands."
 end
 
-# 
+#
 # client = Google::APIClient.new(
 #   :application_name => 'Barnabus_Bot',
 #   :application_version => '1.0.0'
