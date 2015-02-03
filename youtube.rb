@@ -1,5 +1,5 @@
 class YouTube
-
+  
   attr_accessible :recent_videos, :new_videos
 
   def initialize(data = {})
@@ -13,6 +13,20 @@ class YouTube
     @channels = data.fetch(:channels, [])
     @recent_videos = fetch_recent_videos
     @new_videos = get_new_videos
+  end
+  
+  private
+
+  def fetch_recent_videos
+    if @channels.empty?
+      raise "Can't fetch videos - no channels defined."
+    end
+    recent_videos = {}
+    @channels.each do |channel|
+      # find 10 most recent videos
+      #   add them to recent_videos with channel name as key
+    end
+    @recent_videos = recent_videos
   end
 
 end
