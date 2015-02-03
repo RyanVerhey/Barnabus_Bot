@@ -1,6 +1,5 @@
 class YouTube
-  
-  attr_accessible :recent_videos, :new_videos
+  attr_reader :recent_videos, :new_videos
 
   def initialize(data = {})
     client = Google::APIClient.new(
