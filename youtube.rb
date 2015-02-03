@@ -36,6 +36,14 @@ class YouTube
     #     add it to new videos with channel as key
     @new_videos = new_videos
   end
+  
+  def self.new?(channel,video_id)
+    # if video is not in recent videos from data for that channel
+    #   return true
+    # else
+    #   return false
+  end
+
 end
 
 =begin
