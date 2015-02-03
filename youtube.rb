@@ -1,5 +1,4 @@
 class YouTube
-  attr_reader :recent_videos, :new_videos
 
   def initialize(data = {})
     client = Google::APIClient.new(
@@ -10,32 +9,44 @@ class YouTube
     client.authorization = nil
     @key = ENV['YTKEY']
     @channels = data.fetch(:channels, [])
-    @recent_videos = fetch_recent_videos
-    @new_videos = get_new_videos
+    @recents = nil
+    @new_vids = nil
   end
-  
+
+  def recent_videos(force = false)
+    if !@recents || force
+      if @channels.empty?
+        raise "Can't fetch videos - no channels defined."
+      end
+      recents = {}
+      @channels.each do |channel|
+        # find 10 most recent videos
+        #   add them to recent_videos with channel name as key
+      end
+      @recents = recents
+    else
+      @recents
+    end
+  end
+
+  def new_videos(force = false)
+    if !@new_vids || force
+      new_vids = {}
+      # iterate through fetched videos
+      #   if YouTube.new?(channel,video_id)
+      #     add it to new videos with channel as key
+      @new_vids = new_vids
+    else
+      @new_vids
+    end
+  end
+
+  def update
+
+  end
+
   private
 
-  def fetch_recent_videos
-    if @channels.empty?
-      raise "Can't fetch videos - no channels defined."
-    end
-    recent_videos = {}
-    @channels.each do |channel|
-      # find 10 most recent videos
-      #   add them to recent_videos with channel name as key
-    end
-    @recent_videos = recent_videos
-  end
-
-  def get_new_videos
-    new_videos = {}
-    # iterate through fetched videos
-    #   if YouTube.new?(channel,video_id)
-    #     add it to new videos with channel as key
-    @new_videos = new_videos
-  end
-  
   def self.new?(channel,video_id)
     # if video is not in recent videos from data for that channel
     #   return true
