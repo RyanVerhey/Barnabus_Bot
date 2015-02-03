@@ -1,5 +1,20 @@
 class YouTube
 
+  attr_accessible :recent_videos, :new_videos
+
+  def initialize(data = {})
+    client = Google::APIClient.new(
+      :application_name => 'Barnabus_Bot',
+      :application_version => '1.0.0'
+    )
+    @api = client.discovered_api('youtube', "v3")
+    client.authorization = nil
+    @key = ENV['YTKEY']
+    @channels = data.fetch(:channels, [])
+    @recent_videos = fetch_recent_videos
+    @new_videos = get_new_videos
+  end
+
 end
 
 =begin
@@ -7,9 +22,9 @@ class YouTube
   attr_reader :client, :new_videos
 
   def initialize
-    @client = YouTubeIt::Client.new(:dev_key => ENV['YTKEY'])
-    @channels = YouTube.access_data("r")[:channels]
-    @new_videos = get_new_videos
+   @client = YouTubeIt::Client.new(:dev_key => ENV['YTKEY'])
+   @channels = YouTube.access_data("r")[:channels]
+   @new_videos = get_new_videos
   end
 
   def get_new_videos
