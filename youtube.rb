@@ -1,4 +1,9 @@
 class YouTube
+
+end
+
+=begin
+class YouTube
   attr_reader :client, :new_videos
 
   def initialize
@@ -85,6 +90,7 @@ class YouTube
   end
 
 end
+=end
 
 class Video
   attr_reader :id, :published_at, :url, :title, :author
