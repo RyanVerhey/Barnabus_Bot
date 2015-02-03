@@ -3,7 +3,7 @@ class YouTube
   def initialize(data = {})
     client = Google::APIClient.new(
       :application_name => 'Barnabus_Bot',
-      :application_version => '1.0.0'
+      :application_version => '2.0.0'
     )
     @api = client.discovered_api('youtube', "v3")
     client.authorization = nil
