@@ -9,6 +9,7 @@ require 'json'
 require 'yaml'
 require_relative 'reddit'
 require_relative 'youtube'
+require_relative 'read_write'
 
 input = ARGV
 
