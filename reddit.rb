@@ -15,29 +15,39 @@ class Reddit
 
   private
 
-  def self.submit(title, message, sr, link = true, save = true, resubmit = false)
-    data = Reddit.login
-    modhash = data[0]
-    cookie = data[1]
-    kind = link ? "link" : "self"
-    url = link ? message : false
-    text = link ? false : message
-    options = { body: {
-      kind: kind,
-      text: text,
-      url: url,
-      sr: sr,
-      title: title,
-      save: save,
-      resubmit: resubmit,
-      api_type: 'json',
-      uh: modhash,
-    }, headers: {
-      'User-Agent' => 'Barnabus_Bot, proudly built by /u/GildedGrizzly',
-      'X-Modhash' => modhash,
-      'Cookie' => 'reddit_session=' + cookie
-    } }
-    response = Reddit.post('http://www.reddit.com/api/submit', options)
+  def self.submit(params) # title, message, sr, link = true, save = true, resubmit = false
+    title =    params.fetch(:title, nil)
+    message =  params.fetch(:message, nil)
+    sr =       params.fetch(:subreddit, nil)
+    link =     params.fetch(:link, true)
+    save =     params.fetch(:save, true)
+    resubmit = params.fetch(:resubmit, false)
+    if title == nil || message == nil || sr == nil
+      raise "You need to have a post title, a message, and a subreddit defined!"
+    else
+      data = Reddit.login
+      modhash = data[0]
+      cookie = data[1]
+      kind = link ? "link" : "self"
+      url = link ? message : false
+      text = link ? false : message
+      options = { body: {
+        kind: kind,
+        text: text,
+        url: url,
+        sr: sr,
+        title: title,
+        save: save,
+        resubmit: resubmit,
+        api_type: 'json',
+        uh: modhash,
+      }, headers: {
+        'User-Agent' => 'Barnabus_Bot, proudly built by /u/GildedGrizzly',
+        'X-Modhash' => modhash,
+        'Cookie' => 'reddit_session=' + cookie
+      } }
+      response = Reddit.post('http://www.reddit.com/api/submit', options)
+    end
   end
 
   def self.login
