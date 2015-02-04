@@ -38,7 +38,6 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     retriable (1.4.1)
-    shenanigans (1.0.11)
     signet (0.6.0)
       addressable (~> 2.3)
       extlib (~> 0.9)
@@ -56,4 +55,3 @@ DEPENDENCIES
   activesupport
   google-api-client
   httparty
-  shenanigans (~> 1.0.11)
