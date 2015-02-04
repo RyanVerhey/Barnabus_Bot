@@ -19,9 +19,22 @@ class YouTube
         raise "Can't fetch videos - no channels defined."
       end
       recents = {}
-      @channels.each do |channel|
-        # find 10 most recent videos
-        #   add them to recent_videos with channel name as key
+      @channels.each do |channel,data|
+        channel_list = @client.execute :key => @key, :api_method => @api.channels.list, :parameters => { forUsername: channel.to_s, part: "contentDetails" }
+        upload_id = YAML.load(channel_list.body)["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
+        video_list = @client.execute :key => @key, :api_method => @api.playlist_items.list, :parameters => { playlistId: upload_id, part: "snippet", maxResults: 5 }
+        videos = YAML.load(video_list.body)["items"]
+        sorted_videos = []
+        videos.each do |video|
+          title = video["snippet"]["title"]
+          if data[:regexp].match(title)
+            sorted_videos << Video.new(id: video["snippet"]["resourceId"]["videoId"],
+                             published_at: video["snippet"]["publishedAt"],
+                             title: video["snippet"]["title"],
+                             author: video["snippet"]["channelTitle"])
+          end
+        end
+        recents[channel] = sorted_videos
       end
       @recents = recents
     else
