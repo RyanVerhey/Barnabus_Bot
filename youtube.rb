@@ -61,10 +61,10 @@ class YouTube
   private
 
   def self.new?(channel,video_id)
-    # if video is not in recent videos from data for that channel
-    #   return true
-    # else
-    #   return false
+    new = false
+    old_recents = ReadWrite.fetch_recent_videos(channel)
+    ids = old_recents.inject([]) { |arr,vid| arr << vid.id }
+    ids.include?(video_id) ? false : true
   end
 
 end
