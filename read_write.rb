@@ -16,6 +16,10 @@ class ReadWrite
     DATA[:reddits][REDDITNAME][:channels][channel_name.to_sym][:recents]
   end
 
+  def self.fetch_reddit_account_info
+    DATA[:reddits][REDDITNAME][:account_info]
+  end
+
   private
 
   def self.write(data)
