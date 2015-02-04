@@ -1,4 +1,4 @@
-start_time = Time.now
+STARTTIME = Time.now
 
 require 'rubygems'
 require 'bundler/setup'
