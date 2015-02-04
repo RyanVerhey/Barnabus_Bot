@@ -1,18 +1,15 @@
 class Reddit
   include HTTParty
 
-  def self.submit_video(videos)
-    video_to_post = videos.first
-    if video_to_post
-      response = Reddit.submit(video_to_post.title, video_to_post.url, "yogscastkim")
-      if !response["json"]["errors"].first
-        YouTube.save_video_data(video_to_post)
-        puts "Video posted! #{response["json"]["data"]["url"]}"
-      else
-        puts "Something went wrong. Response: #{response}"
-      end
+  def self.submit_video(video)
+    puts 'Video!'
+    response = Reddit.submit title: video.title, message: video.url, subreddit: REDDITNAME.to_s
+    if !response["json"]["errors"].first
+      puts "Video posted! #{response["json"]["data"]["url"]}"
+      return true
     else
-      puts "No new video to post"
+      puts "Something went wrong. Response: #{response}"
+      return false
     end
   end
 
