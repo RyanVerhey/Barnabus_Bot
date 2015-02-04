@@ -44,10 +44,18 @@ class YouTube
 
   def new_videos(force = false)
     if !@new_vids || force
-      new_vids = {}
-      # iterate through fetched videos
-      #   if YouTube.new?(channel,video_id)
-      #     add it to new videos with channel as key
+      new_vids = []
+      if @recents
+        @recents.each do |channel_name,videos|
+          videos.each do |video|
+            if YouTube.new?(channel_name.to_s, video.id)
+              new_vids << video
+            end
+          end
+        end
+      else
+        raise "Can't get new videos if you haven't fetched recent videos first!"
+      end
       @new_vids = new_vids
     else
       @new_vids
