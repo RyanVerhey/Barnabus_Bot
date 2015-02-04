@@ -8,7 +8,7 @@ class YouTube
     @api = @client.discovered_api('youtube', "v3")
     @client.authorization = nil
     @key = ENV['YTKEY']
-    @channels = data.fetch(:channels, [])
+    @channels = data.fetch(:channels, {})
     @recents = nil
     @new_vids = nil
   end
