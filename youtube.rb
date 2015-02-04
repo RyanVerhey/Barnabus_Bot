@@ -1,12 +1,12 @@
 class YouTube
 
   def initialize(data = {})
-    client = Google::APIClient.new(
+    @client = Google::APIClient.new(
       :application_name => 'Barnabus_Bot',
       :application_version => '2.0.0'
     )
-    @api = client.discovered_api('youtube', "v3")
-    client.authorization = nil
+    @api = @client.discovered_api('youtube', "v3")
+    @client.authorization = nil
     @key = ENV['YTKEY']
     @channels = data.fetch(:channels, [])
     @recents = nil
