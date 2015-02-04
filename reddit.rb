@@ -2,10 +2,10 @@ class Reddit
   include HTTParty
 
   def self.submit_video(video)
-    puts 'Video!'
     response = Reddit.submit title: video.title, message: video.url, subreddit: REDDITNAME.to_s
     if !response["json"]["errors"].first
-      puts "Video posted! #{response["json"]["data"]["url"]}"
+      puts "Video posted! #{Time.now - STARTTIME} seconds have elapsed..."
+      puts "#{response["json"]["data"]["url"]}"
       return true
     else
       puts "Something went wrong. Response: #{response}"
