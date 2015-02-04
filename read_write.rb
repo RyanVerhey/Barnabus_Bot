@@ -12,6 +12,8 @@ class ReadWrite
     self.write(data)
   end
 
+  private
+
   def self.write(data)
     File.open(File.expand_path(File.dirname(__FILE__)) + "/data.yaml", 'w') do |f|
       f.write(data.to_yaml)
