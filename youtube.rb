@@ -162,12 +162,12 @@ end
 class Video
   attr_reader :id, :published_at, :url, :title, :author
 
-  def initialize(id, published_at, title, author)
-    @id = id
-    @published_at = published_at
-    @url = "http://www.youtube.com/watch?v=" + @id
-    @title = title
-    @author = author
+  def initialize(params)
+    @id = params[:id]
+    @published_at = params[:published_at]
+    @url = "https://www.youtube.com/watch?v=" + @id
+    @title = params[:title]
+    @author = params[:author]
   end
 
   def self.save_as_video(upload, video)
