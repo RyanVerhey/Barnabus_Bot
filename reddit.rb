@@ -51,8 +51,9 @@ class Reddit
   end
 
   def self.login
-    username = 'Barnabus_Bot'
-    password = ENV['PASS']
+    account_info = ReadWrite.fetch_reddit_account_info
+    username = account_info[:username]
+    password = ENV[account_info[:password_var]]
     options = { body: { user: username, passwd: password, api_type: 'json' } }
     response = Reddit.post("http://www.reddit.com/api/login/", options)
     data = response['json']['data']
