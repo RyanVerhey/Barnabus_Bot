@@ -12,6 +12,10 @@ class ReadWrite
     self.write(data)
   end
 
+  def self.fetch_recent_videos(channel_name)
+    DATA[:reddits][REDDITNAME][:channels][channel_name.to_sym][:recents]
+  end
+
   private
 
   def self.write(data)
