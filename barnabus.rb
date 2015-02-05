@@ -58,4 +58,6 @@ end
 
 if end_time
   puts "Barnabus took #{(end_time - STARTTIME)} seconds to run."
+  puts "Start time: #{STARTTIME}"
+  puts "End time: #{end_time}"
 end
