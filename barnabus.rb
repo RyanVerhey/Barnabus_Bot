@@ -16,6 +16,12 @@ require_relative 'youtube'
 input = ARGV
 REDDITNAME = input[1].to_sym if input[1]
 
+if !ENV["YTKEY"]
+  raise "You need to set the YouTube API Key!"
+elsif !ENV["PASS"]
+  raise "You need to set the Reddit password!"
+end
+
 case input.first
 when "-r"
   if DATA[:reddits][REDDITNAME]
