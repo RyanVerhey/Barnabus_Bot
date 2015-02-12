@@ -21,15 +21,15 @@ class YouTube
       recents = {}
       @channels.each do |channel,data|
         puts "Fetching #{channel.to_s} videos. #{Time.now - STARTTIME} seconds have elapsed..."
-        channel_list = @client.execute :key => @key, :api_method => @api.channels.list, :parameters => { forUsername: channel.to_s, part: "contentDetails" }
-        upload_id = YAML.load(channel_list.body)["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
-        video_list = @client.execute :key => @key, :api_method => @api.playlist_items.list, :parameters => { playlistId: upload_id, part: "snippet", maxResults: 10 }
+        channel_list = @client.execute :key => @key, :api_method => @api.channels.list, :parameters => { forUsername: channel.to_s, part: "id" }
+        channel_id = YAML.load(channel_list.body)["items"][0]["id"]
+        video_list = @client.execute :key => @key, :api_method => @api.search.list, :parameters => { channelId: channel_id, part: "id,snippet", maxResults: 10, order: "date", type: "video" }
         videos = YAML.load(video_list.body)["items"]
         sorted_videos = []
         videos.each do |video|
           title = video["snippet"]["title"]
           if data[:regexp].match(title)
-            sorted_videos << Video.new(id: video["snippet"]["resourceId"]["videoId"],
+            sorted_videos << Video.new(id: video["id"]["videoId"],
                              published_at: video["snippet"]["publishedAt"],
                              title: video["snippet"]["title"],
                              author: video["snippet"]["channelTitle"])
