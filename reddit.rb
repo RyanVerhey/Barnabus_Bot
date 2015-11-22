@@ -56,7 +56,13 @@ class Reddit
     password = ENV[account_info[:password_var]]
     options = { body: { user: username, passwd: password, api_type: 'json' } }
     response = Reddit.post("http://www.reddit.com/api/login/", options)
-    data = response['json']['data']
+    begin
+      data = response['json']['data']
+    rescue
+      puts "Something went wrong logging into reddit. Here's the response:"
+      p response
+      raise "Error logging in to reddit"
+    end
     return [data['modhash'], data['cookie']]
   end
 
