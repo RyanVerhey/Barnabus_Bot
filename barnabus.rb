@@ -39,7 +39,6 @@ when "-r" # Run
       end
       ReadWrite.write_recent_vids(recents: yt.recent_videos, reddit: REDDITNAME)
     end
-    end_time = Time.now
   else
     puts "That subreddit hasn't been saved yet."
   end
