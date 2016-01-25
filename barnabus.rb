@@ -44,10 +44,10 @@ when "-r" # Run
     puts "That subreddit hasn't been saved yet."
   end
 when "-u" # Update
-    yt = YouTube.new channels: DATA[:reddits][REDDITNAME][:channels]
-    yt.recent_videos
-    ReadWrite.write_recent_vids(recents: yt.recent_videos, reddit: REDDITNAME)
-    puts "Recent videos for #{REDDITNAME.to_s} successfully updated!"
+  yt = YouTube.new channels: DATA[:reddits][REDDITNAME][:channels]
+  yt.recent_videos
+  ReadWrite.write_recent_vids(recents: yt.recent_videos, reddit: REDDITNAME)
+  puts "Recent videos for #{REDDITNAME.to_s} successfully updated!"
 when "help" #Help
   puts "Hi, I'm Barnabus! Here's a list of my commands:"
   puts "  '-r subreddit':   Searches for new videos and posts them to reddit."
