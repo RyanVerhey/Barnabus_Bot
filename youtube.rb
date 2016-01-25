@@ -20,7 +20,7 @@ class YouTube
       end
       recents = {}
       @channels.each do |channel,data|
-        puts "Fetching #{channel.to_s} videos. #{Time.now - STARTTIME} seconds have elapsed..."
+        puts "Fetching #{channel.to_s} videos..."
         channel_list = @client.execute :key => @key, :api_method => @api.channels.list, :parameters => { forUsername: channel.to_s, part: "id" }
         channel_id = YAML.load(channel_list.body)["items"][0]["id"]
         video_list = @client.execute :key => @key, :api_method => @api.search.list, :parameters => { channelId: channel_id, part: "id,snippet", maxResults: 10, order: "date", type: "video" }
