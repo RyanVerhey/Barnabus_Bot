@@ -17,9 +17,12 @@ DATA = ReadWrite.load_data
 input = ARGV
 REDDITNAME = input[1].to_sym if input[1]
 
-if !ENV["YTKEY"]
+case
+when !ENV["YTKEY"] && !ENV["PASS"]
+  raise "You need to set the YouTube API Key and the Reddit password!"
+when !ENV["YTKEY"]
   raise "You need to set the YouTube API Key!"
-elsif !ENV["PASS"]
+when !ENV["PASS"]
   raise "You need to set the Reddit password!"
 end
 
