@@ -27,7 +27,7 @@ when !ENV["PASS"]
 end
 
 case input.first
-when "-r"
+when "-r" # Run
   if DATA[:reddits][REDDITNAME]
     puts "Getting videos for /r/#{REDDITNAME.to_s}. Took #{Time.now - STARTTIME} seconds to initialize..."
     yt = YouTube.new channels: DATA[:reddits][REDDITNAME][:channels]
@@ -45,13 +45,13 @@ when "-r"
   else
     puts "That subreddit hasn't been saved yet."
   end
-when "-u"
+when "-u" # Update
     yt = YouTube.new channels: DATA[:reddits][REDDITNAME][:channels]
     yt.recent_videos
     ReadWrite.write_recent_vids(recents: yt.recent_videos, reddit: REDDITNAME)
     puts "Recent videos for #{REDDITNAME.to_s} successfully updated!"
     end_time = Time.now
-when "help"
+when "help" #Help
   puts "Hi, I'm Barnabus! Here's a list of my commands:"
   puts "  '-r subreddit':   Searches for new videos and posts them to reddit."
   puts "  '-u subreddit':   Only updates the most recent videos in the database, doesn't post anything to reddit. If it is a new channel/subreddit, initializes the values."
