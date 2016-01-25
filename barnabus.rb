@@ -9,9 +9,10 @@ require 'json'
 require 'yaml'
 require_relative 'video'
 require_relative 'read_write'
-DATA = ReadWrite.load_data
 require_relative 'reddit'
 require_relative 'youtube'
+
+DATA = ReadWrite.load_data
 
 input = ARGV
 REDDITNAME = input[1].to_sym if input[1]
