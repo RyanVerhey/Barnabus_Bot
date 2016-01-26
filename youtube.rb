@@ -70,7 +70,7 @@ class YouTube
     if @recent_videos
       @recent_videos.each do |channel_name,videos|
         videos.each do |video|
-          if YouTube.new?(channel_name.to_s, video.id)
+          if YouTube.new?(channel_name, video.id)
             new_vids << video
           end
         end
@@ -88,9 +88,8 @@ class YouTube
   private
 
   def self.new?(channel,video_id)
-    new = false
-    old_recents = ReadWrite.fetch_recent_videos(channel)
-    ids = old_recents.inject([]) { |arr,vid| arr << vid.id }
+    old_recents = DATA[:reddits][REDDITNAME][:channels][channel][:recents]
+    ids = old_recents.map(&:id)
     ids.include?(video_id) ? false : true
   end
 
