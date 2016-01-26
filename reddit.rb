@@ -4,7 +4,7 @@ class Reddit
   def self.submit_video(video)
     response = Reddit.submit title: video.title, message: video.url, subreddit: REDDITNAME.to_s
     if !response["json"]["errors"].first
-      puts "Video posted! #{Time.now - STARTTIME} seconds have elapsed..."
+      puts "Video posted: #{video.id}"
       puts "#{response["json"]["data"]["url"]}"
       return true
     else
@@ -15,14 +15,14 @@ class Reddit
 
   private
 
-  def self.submit(params) # title, message, sr, link = true, save = true, resubmit = false
+  def self.submit(params = {}) # title, message, sr, link = true, save = true, resubmit = false
     title =    params.fetch(:title, nil)
     message =  params.fetch(:message, nil)
     sr =       params.fetch(:subreddit, nil)
     link =     params.fetch(:link, true)
     save =     params.fetch(:save, true)
     resubmit = params.fetch(:resubmit, false)
-    if title == nil || message == nil || sr == nil
+    if title.nil? || message.nil? || sr.nil?
       raise "You need to have a post title, a message, and a subreddit defined!"
     else
       data = Reddit.login
