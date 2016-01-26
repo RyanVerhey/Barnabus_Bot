@@ -15,14 +15,14 @@ class Reddit
 
   private
 
-  def self.submit(params) # title, message, sr, link = true, save = true, resubmit = false
+  def self.submit(params = {}) # title, message, sr, link = true, save = true, resubmit = false
     title =    params.fetch(:title, nil)
     message =  params.fetch(:message, nil)
     sr =       params.fetch(:subreddit, nil)
     link =     params.fetch(:link, true)
     save =     params.fetch(:save, true)
     resubmit = params.fetch(:resubmit, false)
-    if title == nil || message == nil || sr == nil
+    if title.nil? || message.nil? || sr.nil?
       raise "You need to have a post title, a message, and a subreddit defined!"
     else
       data = Reddit.login
