@@ -31,6 +31,7 @@ class YouTube
                                      :api_method => @api.channels.list,
                                      :parameters => { forUsername: channel.to_s, part: "id" })
       channel_id = YAML.load(channel_list.body)["items"][0]["id"]
+
       video_list = @client.execute(:key => @key,
                                    :api_method => @api.search.list,
                                    :parameters => {
@@ -39,21 +40,27 @@ class YouTube
                                      maxResults: 10,
                                      order: "date",
                                      type: "video" })
-      videos = YAML.load(video_list.body)["items"]
+      video_ids = YAML.load(video_list.body)["items"].map{ |v| v['id']['videoId'] }
 
-      sorted_videos = []
-      videos.each do |video|
+      videos = @client.execute(:key => @key,
+                               :api_method => @api.videos.list,
+                               :parameters => {
+                                 part: "id,snippet",
+                                 id: video_ids.join(',')
+                               })
+      videos = YAML.load(videos.body)["items"]
+
+      videos.map! do |video|
         title = video["snippet"]["title"]
-        # desc =
-        if data[:regexp].match(title)
-          sorted_videos <<
-            Video.new(id: video["id"]["videoId"],
-                      published_at: video["snippet"]["publishedAt"],
-                      title: video["snippet"]["title"],
-                      author: video["snippet"]["channelTitle"])
+        desc = video["snippet"]["description"]
+        if data[:regexp].match(title) || data[:regexp].match(desc)
+          Video.new(id: video["id"],
+                    published_at: video["snippet"]["publishedAt"],
+                    title: video["snippet"]["title"],
+                    author: video["snippet"]["channelTitle"])
         end
       end
-      recents[channel] = sorted_videos
+      recents[channel] = videos.compact
     end
     recents
   end
