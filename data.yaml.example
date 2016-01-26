@@ -1,0 +1,19 @@
+---
+:reddits:
+  :subreddit_name:
+    :channels:
+      :youtube_channel_username:
+        :regexp: !ruby/regexp /.+/i
+        :recents:
+        - !ruby/object:Video
+          id: abcdefg
+          published_at: '2016-01-25T17:30:00.000Z'
+          url: https://www.youtube.com/watch?v=abcdefg
+          title: YouTube Video Title!
+          author: Youtube Channel Name!
+      :other_youtube_channel_username:
+        :regexp: !ruby/regexp /(Phrase1|Phrase2)/i
+        :recents: []
+    :account_info:
+      :username: reddit_username
+      :password_var: reddit_password
