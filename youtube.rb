@@ -78,6 +78,12 @@ class YouTube
     else
       raise "Can't get new videos if you haven't fetched recent videos first!"
     end
+    if !new_vids.empty?
+      puts "New Videos:"
+      new_vids.each do |v|
+        puts "  #{v.author}: #{v.id} (#{v.title})"
+      end
+    end
     new_vids
   end
 
