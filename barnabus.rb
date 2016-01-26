@@ -29,7 +29,7 @@ when "-r", "-u" # Run, Update
   if DATA[:reddits][REDDITNAME]
     puts "Getting videos for /r/#{REDDITNAME.to_s}..."
     yt = YouTube.new channels: DATA[:reddits][REDDITNAME][:channels]
-    binding.pry
+
     case input.first
     when "-r" # Run
       if yt.new_videos.empty?
