@@ -3,6 +3,6 @@ class RedditAccount < ActiveRecord::Base
   attr_accessor :password
 
   after_initialize do
-    self.password = ENV[self.password_var]
+    self.password = ENV[self.password_var] if self.password_var
   end
 end
