@@ -7,7 +7,7 @@ require 'json'
 require 'yaml'
 require 'active_record'
 require 'mysql'
-require_relative './variables.rb'
+require_relative 'variables'
 
 Dir["../app/models/*.rb"].each {|file| require file }
 Dir["../app/controllers/*.rb"].each {|file| require file }
