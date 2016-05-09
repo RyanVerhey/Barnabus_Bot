@@ -9,14 +9,14 @@ class AddSubredditsAndYoutubeChannels < ActiveRecord::Migration
 
     create_table :youtube_channels do |t|
       t.string  :name
-      t.string  :regexp
 
       t.timestamps null: false
     end
 
-    create_table :subreddits_youtube_channels do |t|
+    create_table :channel_assignments do |t|
       t.belongs_to :subreddit, index: true
       t.belongs_to :youtube_channel, index: true
+      t.string  :regexp
 
       t.timestamps null: false
     end

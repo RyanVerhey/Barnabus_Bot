@@ -14,14 +14,16 @@ data[:reddits].each do |reddit_name, reddit|
 
   sr = Subreddit.new(
     name: reddit_name.to_s,
-    reddit_account: ra
+    account: ra
   )
 
   reddit[:channels].each do |channel_name, channel|
+    assignment = sr.channel_assignments.build
+    assignment.regexp = channel[:regexp]
     ytc = YoutubeChannel.new(
-      name: channel_name.to_s,
-      regexp: channel[:regexp]
+      name: channel_name.to_s
     )
+    assignment.youtube_channel = ytc
 
     channel[:recents].each do |recent|
       recent["published_at"] = DateTime.iso8601(recent["published_at"])
@@ -35,7 +37,6 @@ data[:reddits].each do |reddit_name, reddit|
     end
 
     ytc.save!
-    sr.youtube_channels << ytc
     sr.save!
   end
 
