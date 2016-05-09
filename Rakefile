@@ -31,6 +31,7 @@ namespace :db do
 
   desc "Seed the database"
   task :seed do
+    ActiveRecord::Base.establish_connection(db_config)
     load "./db/seed.rb"
     puts "Database seeded."
   end
