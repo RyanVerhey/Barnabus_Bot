@@ -15,11 +15,7 @@ when "-un" # Add a YoutubeChannel to a subreddit
 when "-ud" # Delete a YoutubeChannel from a subreddit
   # Delete a YoutubeChannel from a subreddit
 when "-h" # Help
-  puts "Hi, I'm Barnabus! Here's a list of my commands:"
-  puts " -rp subreddit_name        Run & Post to Reddit"
-  puts " -r subreddit_name         Run, but without posting to Reddit"
-  puts " -i subreddit_name         Make a new subreddit. Follow the directions"
-  puts " -h                        I hope you know what this does :)"
+  HelpController.help
 else
   puts "That command is not recognized. Use the '-h' switch for a list of commands."
 end
