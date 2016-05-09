@@ -8,7 +8,6 @@ require 'yaml'
 require 'active_record'
 require 'mysql'
 require_relative 'variables'
-require_relative '../read_write.rb'
 
 Dir["./app/models/*.rb"].each {|file| require file }
 Dir["./app/controllers/*.rb"].each {|file| require file }
