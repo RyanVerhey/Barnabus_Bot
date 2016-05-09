@@ -33,7 +33,6 @@ data[:reddits].each do |reddit_name, reddit|
         ytc.videos << vid
       end
     end
-    p ytc.videos
 
     ytc.save!
     sr.youtube_channels << ytc
