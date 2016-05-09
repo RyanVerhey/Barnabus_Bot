@@ -1,7 +1,7 @@
 require_relative 'config/initialize'
 
 input = ARGV
-subreddit = input[1] || :all
+subreddit = input[1]
 
 case input.first
 when "-rp" # Run & Post
