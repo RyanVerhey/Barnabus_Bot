@@ -12,19 +12,41 @@ class InitController
   protected
 
   def new_subreddit
+    @input = ""
     raise "You need to specify the subreddit you want to add" unless @reddit_name
 
-    subreddit = Subreddit.new(name: @reddit_name)
-    yt_channels = get_youtube_channels
-    subreddit.channels = yt_channels
+    subreddit = Subreddit.where(name: @reddit_name).first_or_initialize
+    if !subreddit.new_record?
+      puts "You need to enter a new subreddit! /r/#{@reddit_name} already exists in the database"
+      return
+    end
+    assignments = get_youtube_channels
 
-    if subreddit.save
+    save_successfully = []
+    assignments.each do |assignment|
+      assignment.subreddit = subreddit
+      save_successfully << assignment.valid?
+    end
+    save_successfully.uniq!
+    save_successfully.compact!
+    # If there are 2 values, then they're true and false, therefore something
+    # isn't valid. If there's one value and it's true, then true. If not, then
+    # false.
+    save_successfully = (save_successfully.count == 1 && save_successfully.first)
+
+    if save_successfully
+      account = get_reddit_account
+      account.save
+      subreddit.account = account
+      assignments.map(&:save)
       puts "Thanks! Updating most recent videos..."
-      # Update videos
+      # TODO: Update videos
       stylized_list = subreddit.channels.map(&:name)
-      stylized_list[-1] = "and #{stylized_list.last}"
-      stylized_list.join(", ")
+      stylized_list = stylized_list.join(", ")
       puts "Done! Now Barnabus will post videos from #{stylized_list} on /r/#{@reddit_name}"
+    else
+      puts "Something went wrong, please try again."
+      new_subreddit
     end
   end
 
@@ -35,19 +57,20 @@ class InitController
     puts "then the regular expression you want to match the videos on."
     puts "Ex.: yogscastkim << /Flux Buddies/i"
     puts "Type 'stop' to stop entering YouTube channels"
-    channels = []
+    assignments = []
 
     until @input == "stop"
-      channel = ask_for_new_youtube_channel
-      channels << channel if channel
+      assignment = ask_for_new_youtube_channel
+      assignments << assignment if assignment
     end
 
-    if channels.empty?
+    if assignments.empty?
       puts "You need to input at least one YouTube Channel"
-      channels = get_youtube_channels
+      @input = ""
+      assignments = get_youtube_channels
     end
 
-    channels
+    assignments
   end
 
   def ask_for_new_youtube_channel
@@ -61,9 +84,27 @@ class InitController
       return
     end
 
-    channel = YoutubeChannel.find_or_initialize(name: @input.first)
-    # TODO: With regexps being stored in join table, need to find a way to save them and add to subreddit
-    channel.regexp = @input.last
-    channel
+    channel = YoutubeChannel.find_or_initialize_by(name: @input.first)
+    assignment = ChannelAssignment.new(regexp: @input.last)
+    assignment.youtube_channel = channel
+    puts "Thanks! Please input another YouTube Channel & Regexp (type 'stop' to finish):"
+    assignment
+  end
+
+  def get_reddit_account
+    puts "What account do you want to post from?"
+    puts "Enter a name of an existing account or type a new one."
+    puts "Existing accounts: " + RedditAccount.all.map(&:username).join(", ")
+    input = STDIN.gets.chomp!
+
+    account = RedditAccount.where(username: input).first_or_initialize
+    if account.new_record?
+      puts "What will the password environment variable be?"
+      account.password_var = STDIN.gets.chomp!
+    else
+      puts "Barnabus will use the account #{account.username} to post to reddit"
+    end
+
+    account
   end
 end
