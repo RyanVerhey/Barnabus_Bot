@@ -10,6 +10,10 @@ when "-r" # Run (update)
   # Run Barnabus without posting (updating)
 when "-i" # Init (make new subreddit)
   InitController.new_subreddit(subreddit)
+when "-un" # Add a YoutubeChannel to a subreddit
+  # Add a YoutubeChannel to a subreddit
+when "-ud" # Delete a YoutubeChannel from a subreddit
+  # Delete a YoutubeChannel from a subreddit
 when "-h" # Help
   puts "Hi, I'm Barnabus! Here's a list of my commands:"
   puts " -rp subreddit_name        Run & Post to Reddit"
