@@ -29,8 +29,14 @@ namespace :db do
     puts "Database deleted."
   end
 
+  desc "Seed the database"
+  task :seed do
+    load "./db/seed.rb"
+    puts "Database seeded."
+  end
+
   desc "Reset the database"
-  task :reset => [:drop, :create, :migrate]
+  task :reset => [:drop, :create, :migrate, :seed]
 
   desc 'Create a db/schema.rb file that is portable against any DB supported by AR'
   task :schema do
