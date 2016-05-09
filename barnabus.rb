@@ -9,7 +9,7 @@ when "-rp" # Run & Post
 when "-r" # Run (update)
   # Run Barnabus without posting (updating)
 when "-i" # Init (make new subreddit)
-  # Make a new subreddit
+  InitController.new_subreddit(subreddit)
 when "-h" # Help
   puts "Hi, I'm Barnabus! Here's a list of my commands:"
   puts " -rp subreddit_name        Run & Post to Reddit"
