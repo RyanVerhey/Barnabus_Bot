@@ -34,50 +34,52 @@ class YouTube
     YAML.load(channel_list.body)["items"][0]["id"]
   end
 
+  def self.get_new_recent_videos_for_youtube_channel_and_subreddit(channel:, subreddit:)
+    puts "Fetching #{channel}'s videos from YouTube..."
+    assignment = ChannelAssignment.find_by(youtube_channel: channel,
+                                           subreddit: subreddit)
+    regexp = assignment.regexp
+
+    yt_video_list = CLIENT.execute(:key => KEY,
+                                 :api_method => API.search.list,
+                                 :parameters => {
+                                   channelId: channel.id,
+                                   part: "id,snippet",
+                                   maxResults: 10,
+                                   order: "date",
+                                   type: "video" })
+    yt_video_ids = YAML.load(yt_video_list.body)["items"].map{ |v| v['id']['videoId'] }
+    yt_videos = CLIENT.execute(:key => KEY,
+                                :api_method => API.videos.list,
+                                :parameters => {
+                                  part: "id,snippet",
+                                  id: yt_video_ids.join(',') })
+    yt_videos = YAML.load(yt_videos.body)["items"]
+
+    videos = yt_videos.map do |video|
+      title = video["snippet"]["title"]
+      desc = video["snippet"]["description"]
+      if regexp.match(title) || regexp.match(desc)
+        video_object_from_youtube_video_data(video)
+      end
+    end.compact
+
+    videos
+  end
+
   private
 
-  def recent_vids
-    raise "Can't fetch videos - no channels defined." if @channels.empty?
+  def self.video_object_from_youtube_video_data(video)
+    vid = Video.find_or_initialize_by id: video["id"]
 
-    recents = {}
-    @channels.each do |channel,data|
-      puts "Fetching #{channel.to_s} videos..."
-      channel_list = @client.execute(:key => @key,
-                                     :api_method => @api.channels.list,
-                                     :parameters => { forUsername: channel.to_s, part: "id" })
-      channel_id = YAML.load(channel_list.body)["items"][0]["id"]
+    vid.attributes = {
+      title: video["snippet"]["title"],
+      author: video["snippet"]["channelTitle"],
+      description: video["snippet"]["description"],
+      published_at: video["snippet"]["publishedAt"]
+    }
 
-      video_list = @client.execute(:key => @key,
-                                   :api_method => @api.search.list,
-                                   :parameters => {
-                                     channelId: channel_id,
-                                     part: "id,snippet",
-                                     maxResults: 10,
-                                     order: "date",
-                                     type: "video" })
-      video_ids = YAML.load(video_list.body)["items"].map{ |v| v['id']['videoId'] }
-
-      videos = @client.execute(:key => @key,
-                               :api_method => @api.videos.list,
-                               :parameters => {
-                                 part: "id,snippet",
-                                 id: video_ids.join(',')
-                               })
-      videos = YAML.load(videos.body)["items"]
-
-      videos.map! do |video|
-        title = video["snippet"]["title"]
-        desc = video["snippet"]["description"]
-        if data[:regexp].match(title) || data[:regexp].match(desc)
-          Video.new(id: video["id"],
-                    published_at: video["snippet"]["publishedAt"],
-                    title: video["snippet"]["title"],
-                    author: video["snippet"]["channelTitle"])
-        end
-      end
-      recents[channel] = videos.compact
-    end
-    recents
+    vid
   end
 
   def new_vids
