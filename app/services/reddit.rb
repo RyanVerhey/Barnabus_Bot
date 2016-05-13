@@ -1,12 +1,35 @@
 class Reddit
   include HTTParty
 
-  def self.submit_video(video)
-    response = Reddit.submit title: video.title, message: video.url, subreddit: REDDITNAME.to_s
+  def initialize(reddit_account)
+    @account = reddit_account
+  end
+
+  def login
+    options = { body: { user: @account.username, passwd: @account.password, api_type: 'json' } }
+    options[:headers] = { 'User-Agent' => 'Barnabus_Bot, proudly built by /u/GildedGrizzly' }
+    response = Reddit.post("https://ssl.reddit.com/api/login/", options)
+    begin
+      data = response['json']['data']
+    rescue
+      puts "Something went wrong logging into reddit. Here's the response:"
+      p response
+      raise "Error logging in to reddit"
+    end
+
+    @modhash = data['modhash']
+    @cookie = data['cookie']
+  end
+
+  def submit_video(video:, subreddit:)
+    response = submit title: video.title, message: video.url, subreddit: subreddit
     if !response["json"]["errors"].first
       puts "Video posted: #{video.id}"
       puts "#{response["json"]["data"]["url"]}"
       return true
+    elsif response["json"]["errors"].first && response["json"]["errors"].first.try(:first) == "ALREADY_SUB"
+      puts "Video #{video.id} (#{video.title}) from #{video.author} has already been posted to #{subreddit}"
+      return false
     else
       puts "Something went wrong. Response: #{response}"
       return false
@@ -15,19 +38,10 @@ class Reddit
 
   private
 
-  def self.submit(params = {}) # title, message, sr, link = true, save = true, resubmit = false
-    title =    params.fetch(:title, nil)
-    message =  params.fetch(:message, nil)
-    sr =       params.fetch(:subreddit, nil)
-    link =     params.fetch(:link, true)
-    save =     params.fetch(:save, true)
-    resubmit = params.fetch(:resubmit, false)
-    if title.nil? || message.nil? || sr.nil?
+  def submit(title:nil, message:nil, subreddit:nil, link:true, save:true, resubmit:false)
+    if title.nil? || message.nil? || subreddit.nil?
       raise "You need to have a post title, a message, and a subreddit defined!"
     else
-      data = Reddit.login
-      modhash = data[0]
-      cookie = data[1]
       kind = link ? "link" : "self"
       url = link ? message : false
       text = link ? false : message
@@ -35,35 +49,19 @@ class Reddit
         kind: kind,
         text: text,
         url: url,
-        sr: sr,
+        sr: subreddit.to_s,
         title: title,
         save: save,
         resubmit: resubmit,
         api_type: 'json',
-        uh: modhash,
+        uh: @modhash,
       }, headers: {
         'User-Agent' => 'Barnabus_Bot, proudly built by /u/GildedGrizzly',
-        'X-Modhash' => modhash,
-        'Cookie' => 'reddit_session=' + cookie
+        'X-Modhash' => @modhash,
+        'Cookie' => 'reddit_session=' + @cookie
       } }
       response = Reddit.post('http://www.reddit.com/api/submit', options)
     end
-  end
-
-  def self.login
-    account_info = ReadWrite.fetch_reddit_account_info
-    username = account_info[:username]
-    password = ENV[account_info[:password_var]]
-    options = { body: { user: username, passwd: password, api_type: 'json' } }
-    response = Reddit.post("http://www.reddit.com/api/login/", options)
-    begin
-      data = response['json']['data']
-    rescue
-      puts "Something went wrong logging into reddit. Here's the response:"
-      p response
-      raise "Error logging in to reddit"
-    end
-    return [data['modhash'], data['cookie']]
   end
 
 end
