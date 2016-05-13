@@ -29,6 +29,7 @@ data[:reddits].each do |reddit_name, reddit|
 
     channel[:recents].each do |recent|
       recent["published_at"] = DateTime.iso8601(recent["published_at"])
+      recent.delete("url")
       vid = Video.new(
         recent
       )

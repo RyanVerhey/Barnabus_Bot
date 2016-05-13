@@ -5,7 +5,6 @@ class AddVideos < ActiveRecord::Migration
       t.text     :title
       t.text     :description
       t.string   :author
-      t.string   :url
       t.datetime :published_at
       t.string   :youtube_channel_id
 

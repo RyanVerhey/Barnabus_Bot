@@ -3,8 +3,8 @@ class Video < ActiveRecord::Base
 
   belongs_to :channel, class_name: "YoutubeChannel"
 
-  after_initialize do
-    self.url = "https://www.youtube.com/watch?v=" + id
+  def url
+    "https://www.youtube.com/watch?v=" + id
   end
 
   def self.without_associated_channel
