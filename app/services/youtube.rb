@@ -2,6 +2,14 @@ class YouTube
 
   attr_reader :recent_videos
 
+  CLIENT = Google::APIClient.new(
+    :application_name => 'Barnabus_Bot',
+    :application_version => '3.0.0'
+  )
+  API = CLIENT.discovered_api('youtube', "v3")
+  CLIENT.authorization = nil
+  KEY = ENV['YTKEY']
+
   def initialize(data = {})
     @client = Google::APIClient.new(
       :application_name => 'Barnabus_Bot',
