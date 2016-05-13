@@ -8,7 +8,8 @@ case input.first
 when "-rp" # Run & Post
   # Run Barnabus and post
 when "-r" # Run (update)
-  # Run Barnabus without posting (updating)
+  RunController.run(subreddits)
+  puts "Videos for #{subreddits.join(", ")} successfully updated!"
 when "-i" # Init (make new subreddit)
   InitController.new_subreddit(subreddits_input.first)
 when "-un" # Add a YoutubeChannel to a subreddit
