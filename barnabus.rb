@@ -1,7 +1,7 @@
 require_relative 'config/initialize'
 
 input = ARGV
-subreddit = input[1]
+subreddits = input[1].split(",")
 
 case input.first
 when "-rp" # Run & Post
@@ -9,7 +9,7 @@ when "-rp" # Run & Post
 when "-r" # Run (update)
   # Run Barnabus without posting (updating)
 when "-i" # Init (make new subreddit)
-  InitController.new_subreddit(subreddit)
+  InitController.new_subreddit(subreddits.first)
 when "-un" # Add a YoutubeChannel to a subreddit
   # Add a YoutubeChannel to a subreddit
 when "-ud" # Delete a YoutubeChannel from a subreddit
