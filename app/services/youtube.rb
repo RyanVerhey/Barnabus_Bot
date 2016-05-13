@@ -82,38 +82,10 @@ class YouTube
     vid
   end
 
-  def new_vids
-    new_vids = []
-    if @recent_videos
-      @recent_videos.each do |channel_name,videos|
-        videos.each do |video|
-          if YouTube.new?(channel_name, video.id)
-            new_vids << video
-          end
-        end
-      end
-    else
-      raise "Can't get new videos if you haven't fetched recent videos first!"
-    end
-    if !new_vids.empty?
-      puts "New Videos:"
-      new_vids.each do |v|
-        puts "  #{v.author}: #{v.id} (#{v.title})"
-      end
-    end
-    new_vids
-  end
+  def self.get_new_videos_for_subreddit_and_youtube_channel(subreddit:, channel:)
+    new_recents = YouTube.get_new_recent_videos_for_youtube_channel_and_subreddit(channel: channel, subreddit: subreddit)
 
-  def update
-
-  end
-
-  private
-
-  def self.new?(channel,video_id)
-    old_recents = DATA[:reddits][REDDITNAME][:channels][channel][:recents]
-    ids = old_recents.map(&:id)
-    ids.include?(video_id) ? false : true
+    new_recents.select { |v| !channel.recent_videos(subreddit).include? v }
   end
 
 end
