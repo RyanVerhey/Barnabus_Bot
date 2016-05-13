@@ -5,8 +5,8 @@ class YoutubeChannel < ActiveRecord::Base
   accepts_nested_attributes_for :channel_assignments
 
   def recent_videos(subreddit)
-    assignment = channel_assignments.find_by(subreddit: subreddit)
-    videos.where('title REGEXP :regexp OR description REGEXP :regexp', { regexp: assignment.regexp.source }).limit(10)
+    regexp = channel_assignments.find_by(subreddit: subreddit).regexp
+    videos.all.order("published_at DESC").limit(10).select { |v| regexp.match(v.title) || regexp.match(v.description) }
   end
 
   def to_s
