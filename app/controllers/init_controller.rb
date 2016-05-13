@@ -85,6 +85,14 @@ class InitController
     end
 
     channel = YoutubeChannel.find_or_initialize_by(name: @input.first)
+
+    begin
+      channel.id = YouTube.get_channel_id channel.name
+    rescue NoMethodError
+      puts "Not a valid YouTube Channel! Please try again"
+      return
+    end
+
     assignment = ChannelAssignment.new(regexp: @input.last)
     assignment.youtube_channel = channel
     puts "Thanks! Please input another YouTube Channel & Regexp (type 'stop' to finish):"
