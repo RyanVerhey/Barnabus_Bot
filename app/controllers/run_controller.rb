@@ -1,5 +1,5 @@
 class RunController
-  def self.run(subreddits)
+  def self.update_recent_videos(subreddits)
     subreddits.each do |subreddit|
       subreddit.channels.each do |channel|
         new_recents = YouTube.get_new_recent_videos_for_youtube_channel_and_subreddit(channel: channel, subreddit: subreddit)

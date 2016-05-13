@@ -8,7 +8,7 @@ case input.first
 when "-rp" # Run & Post
   # Run Barnabus and post
 when "-r" # Run (update)
-  RunController.run(subreddits)
+  RunController.update_recent_videos(subreddits)
   puts "Videos for #{subreddits.join(", ")} successfully updated!"
 when "-i" # Init (make new subreddit)
   InitController.new_subreddit(subreddits_input.first)
