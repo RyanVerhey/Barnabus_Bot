@@ -4,7 +4,7 @@ class RunController
       subreddit.channels.each do |channel|
         new_recents = YouTube.get_new_recent_videos_for_youtube_channel_and_subreddit(channel: channel, subreddit: subreddit)
 
-        channel.videos = new_recents
+        channel.videos += new_recents
         channel.save
       end
       puts "" # To put a line break in between subreddits
