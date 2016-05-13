@@ -7,6 +7,7 @@ class HelpController
     puts " -un subreddit_name                         Add a YouTube Channel to an existing subreddit"
     puts " -ud subreddit_name                         Delete a YouTube Channel from an existing subreddit"
     puts " -uds subreddit_name                        Delete a subreddit"
+    puts " --clean-videos                             Deletes any videos that don't have a YouTube Channel"
     puts " -h                                         I hope you know what this does :)"
   end
 end
