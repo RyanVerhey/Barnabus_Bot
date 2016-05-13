@@ -4,4 +4,7 @@ class Subreddit < ActiveRecord::Base
   has_many :channels, class_name: "YoutubeChannel", through: :channel_assignments, source: :youtube_channel
   accepts_nested_attributes_for :channel_assignments
 
+  def to_s
+    "/r/" + self.name
+  end
 end
