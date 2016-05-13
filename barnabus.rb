@@ -19,7 +19,7 @@ when "-ud" # Delete a YoutubeChannel from a subreddit
 when "-uds" # Delete a Subreddit
   # Delete a subreddit
 when "--clean-videos" # Cleans up videos without channels
-  Video.without_associated_channel.each { |v| v.destroy }
+  # Cleans up videos without channels
 when "-h" # Help
   HelpController.help
 else
