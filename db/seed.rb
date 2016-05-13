@@ -20,7 +20,9 @@ data[:reddits].each do |reddit_name, reddit|
   reddit[:channels].each do |channel_name, channel|
     assignment = sr.channel_assignments.build
     assignment.regexp = channel[:regexp]
+
     ytc = YoutubeChannel.new(
+      id: YouTube.get_channel_id(channel_name.to_s),
       name: channel_name.to_s
     )
     assignment.youtube_channel = ytc
