@@ -14,6 +14,8 @@ when "-un" # Add a YoutubeChannel to a subreddit
   # Add a YoutubeChannel to a subreddit
 when "-ud" # Delete a YoutubeChannel from a subreddit
   # Delete a YoutubeChannel from a subreddit
+when "-uds" # Delete a Subreddit
+  # Delete a subreddit
 when "-h" # Help
   HelpController.help
 else
