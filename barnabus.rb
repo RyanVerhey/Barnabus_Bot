@@ -6,7 +6,7 @@ subreddits = Subreddit.where name: subreddits_input
 
 case input.first
 when "-rp" # Run & Post
-  # Run Barnabus and post
+  RunController.post_new_videos(subreddits)
 when "-r" # Run (update)
   RunController.update_recent_videos(subreddits)
   puts "Videos for #{subreddits.join(", ")} successfully updated!"
