@@ -7,6 +7,7 @@ class AddVideos < ActiveRecord::Migration
       t.string   :author
       t.string   :url
       t.datetime :published_at
+      t.string   :youtube_channel_id
 
       t.index :id, unique: true
 
