@@ -27,10 +27,10 @@ class YouTube
     @new_videos ||= new_vids
   end
 
-  def self.get_channel_id(channel_name)
+  def self.get_channel_id(channel_username)
     channel_list = CLIENT.execute(:key => KEY,
                                   :api_method => API.channels.list,
-                                  :parameters => { forUsername: channel_name, part: "id" })
+                                  :parameters => { forUsername: channel_username, part: "id" })
     YAML.load(channel_list.body)["items"][0]["id"]
   end
 
