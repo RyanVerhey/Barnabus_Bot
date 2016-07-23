@@ -17,12 +17,12 @@ data[:reddits].each do |reddit_name, reddit|
     account: ra
   )
 
-  reddit[:channels].each do |channel_name, channel|
+  reddit[:channels].each do |channel_username, channel|
     assignment = sr.channel_assignments.build
     assignment.regexp = channel[:regexp]
 
     ytc = YoutubeChannel.new(
-      id: YouTube.get_channel_id(channel_name.to_s),
+      id: YouTube.get_channel_id(channel_username.to_s),
       name: channel_name.to_s
     )
     assignment.youtube_channel = ytc
