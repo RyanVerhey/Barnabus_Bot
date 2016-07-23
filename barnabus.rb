@@ -5,22 +5,24 @@ subreddits_input = input[1].split ","
 subreddits = Subreddit.where name: subreddits_input
 
 case input.first
-when "-rp" # Run & Post
+when "--run" # Run & Post
   RunController.post_new_videos(subreddits)
-when "-r" # Run (update)
+when "--update-videos" # Run (update)
   RunController.update_recent_videos(subreddits)
   puts "Videos for #{subreddits.join(", ")} successfully updated!"
-when "-i" # Init (make new subreddit)
+when "--init" # Init (make new subreddit)
   InitController.new_subreddit(subreddits_input.first)
-when "-un" # Add a YoutubeChannel to a subreddit
+when "--add-channel" # Add a YoutubeChannel to a subreddit
   # Add a YoutubeChannel to a subreddit
-when "-ud" # Delete a YoutubeChannel from a subreddit
+when "--delete-channel" # Delete a YoutubeChannel from a subreddit
   # Delete a YoutubeChannel from a subreddit
-when "-uds" # Delete a Subreddit
+when "--add-subreddit" # Add a Subreddit
+  # Add a subreddit
+when "--delete-subreddit" # Delete a Subreddit
   # Delete a subreddit
 when "--clean-videos" # Cleans up videos without channels
   # Cleans up videos without channels
-when "-h" # Help
+when "-h", "--help" # Help
   HelpController.help
 else
   puts "That command is not recognized. Use the '-h' switch for a list of commands."
