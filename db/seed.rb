@@ -38,6 +38,12 @@ data[:reddits].each do |reddit_name, reddit|
         vid.save!
         ytc.videos << vid
       end
+
+      vid = Video.find(vid.id)
+      post = RedditPost.create(
+        video: vid,
+        subreddit: sr
+      )
     end
 
     ytc.save!
