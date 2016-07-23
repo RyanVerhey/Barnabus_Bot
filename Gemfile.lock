@@ -1,6 +1,13 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    activemodel (4.2.0)
+      activesupport (= 4.2.0)
+      builder (~> 3.1)
+    activerecord (4.2.0)
+      activemodel (= 4.2.0)
+      activesupport (= 4.2.0)
+      arel (~> 6.0)
     activesupport (4.2.0)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -8,10 +15,12 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.6)
+    arel (6.0.3)
     autoparse (0.3.3)
       addressable (>= 2.3.1)
       extlib (>= 0.9.15)
       multi_json (>= 1.0.0)
+    builder (3.2.2)
     coderay (1.1.0)
     extlib (0.9.16)
     faraday (0.9.1)
@@ -39,10 +48,12 @@ GEM
     multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
+    mysql (2.9.1)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    rake (11.1.2)
     retriable (1.4.1)
     signet (0.6.0)
       addressable (~> 2.3)
@@ -59,7 +70,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord
   activesupport
   google-api-client
   httparty
+  mysql
   pry
+  rake

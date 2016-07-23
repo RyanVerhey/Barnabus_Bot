@@ -1,2 +1,6 @@
 keys
 data.yaml
+log.log
+config/variables.rb
+config/database.yaml
+db/schema.rb
