@@ -30,6 +30,15 @@ class RunController
         channel.save
       end
 
+      new_vids.values.flatten.each do |vid|
+        if posted_successfully[vid.id]
+          RedditPost.create(
+            subreddit: subreddit,
+            video: vid
+          )
+        end
+      end
+
       puts "" # To put a line break in between subreddits
     end
   end
