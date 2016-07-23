@@ -6,6 +6,13 @@ class RunController
 
         channel.videos += new_recents
         channel.save
+
+        new_recents.each do |vid|
+          RedditPost.create(
+            subreddit: subreddit,
+            video: vid
+          )
+        end
       end
       puts "" # To put a line break in between subreddits
     end
