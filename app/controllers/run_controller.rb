@@ -20,8 +20,9 @@ class RunController
 
       reddit = Reddit.new(subreddit.account)
       reddit.login
+      posted_successfully = {}
       new_vids.values.flatten.each do |vid|
-        reddit.submit_video video: vid, subreddit: subreddit
+        posted_successfully[vid.id] = reddit.submit_video video: vid, subreddit: subreddit
       end
 
       subreddit.channels.each do |channel|
