@@ -23,7 +23,8 @@ data[:reddits].each do |reddit_name, reddit|
 
     ytc = YoutubeChannel.new(
       id: YouTube.get_channel_id(channel_username.to_s),
-      name: channel_name.to_s
+      username: channel_username.to_s,
+      name: YouTube.get_channel_name(channel_username)
     )
     assignment.youtube_channel = ytc
 
