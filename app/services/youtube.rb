@@ -74,6 +74,12 @@ class YouTube
     videos
   end
 
+  def self.get_new_videos_for_subreddit_and_youtube_channel(subreddit:, channel:)
+    new_recents = YouTube.get_new_recent_videos_for_youtube_channel_and_subreddit(channel: channel, subreddit: subreddit)
+
+    new_recents.reject { |v| RedditPost.where(subreddit: subreddit, video_id: v.id).first }
+  end
+
   private
 
   def self.video_object_from_youtube_video_data(video)
@@ -88,11 +94,4 @@ class YouTube
 
     vid
   end
-
-  def self.get_new_videos_for_subreddit_and_youtube_channel(subreddit:, channel:)
-    new_recents = YouTube.get_new_recent_videos_for_youtube_channel_and_subreddit(channel: channel, subreddit: subreddit)
-
-    new_recents.select { |v| !channel.recent_videos(subreddit).include? v }
-  end
-
 end
