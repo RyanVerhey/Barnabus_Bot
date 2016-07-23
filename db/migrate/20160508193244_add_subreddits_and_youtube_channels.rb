@@ -10,6 +10,7 @@ class AddSubredditsAndYoutubeChannels < ActiveRecord::Migration
     create_table :youtube_channels, id: false do |t|
       t.string :id
       t.string :name
+      t.string :username
 
       t.index :id, unique: true
 
