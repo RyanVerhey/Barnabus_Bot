@@ -70,7 +70,6 @@ COMMANDS = {
 ALIASES = {
   "-h" => COMMANDS["--help"]
 }
-COMMANDS.merge! ALIASES
 
 command = COMMANDS[input.first] || ALIASES[input.first]
 if command
