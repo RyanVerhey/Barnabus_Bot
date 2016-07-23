@@ -1,13 +1,17 @@
 class HelpController
   def self.help
-    puts "Hi, I'm Barnabus! Here's a list of my commands:"
-    puts " -rp subreddit_name(,subreddit_name)        Run & Post to Reddit"
-    puts " -r subreddit_name(,subreddit_name)         Run, but without posting to Reddit"
-    puts " -i subreddit_name                          Make a new subreddit. Follow the directions"
-    puts " -un subreddit_name                         Add a YouTube Channel to an existing subreddit"
-    puts " -ud subreddit_name                         Delete a YouTube Channel from an existing subreddit"
-    puts " -uds subreddit_name                        Delete a subreddit"
-    puts " --clean-videos                             Deletes any videos that don't have a YouTube Channel"
-    puts " -h                                         I hope you know what this does :)"
+    command_top_length = COMMANDS.reduce(0) do |length,(command,options)|
+      command_format = "#{command} #{options[:format]}"
+      if command_format.length > length
+        command_format.length
+      else
+        length
+      end
+    end
+
+    COMMANDS.each do |command,options|
+      command_format = "#{command} #{options[:format]}"
+      puts "#{command_format.ljust(command_top_length)} # #{options[:desc]}"
+    end
   end
 end
