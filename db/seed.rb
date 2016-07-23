@@ -12,7 +12,7 @@ data[:reddits].each do |reddit_name, reddit|
     ra = ras.first
   end
 
-  sr = Subreddit.new(
+  sr = Subreddit.create(
     name: reddit_name.to_s,
     account: ra
   )
@@ -21,7 +21,7 @@ data[:reddits].each do |reddit_name, reddit|
     assignment = sr.channel_assignments.build
     assignment.regexp = channel[:regexp]
 
-    ytc = YoutubeChannel.new(
+    ytc = YoutubeChannel.create(
       id: YouTube.get_channel_id(channel_username.to_s),
       username: channel_username.to_s,
       name: YouTube.get_channel_name(channel_username)
