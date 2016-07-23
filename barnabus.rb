@@ -1,7 +1,7 @@
 require_relative 'config/initialize'
 
 input = ARGV
-subreddits_input = input[1].split ","
+subreddits_input = input[1].to_s.split ","
 subreddits = Subreddit.where name: subreddits_input
 
 case input.first
