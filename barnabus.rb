@@ -75,6 +75,8 @@ COMMANDS.merge! ALIASES
 command = COMMANDS[input.first] || ALIASES[input.first]
 if command
   command[:action].call
+else
+  puts "That command is not recognized. Type 'use --help' for a list of commands."
 end
 
 # case
