@@ -7,7 +7,7 @@ subreddits = Subreddit.where name: subreddits_input
 case input.first
 when "--run" # Run & Post
   RunController.post_new_videos(subreddits)
-when "--update-videos" # Run (update)
+when "--update" # Run (update)
   RunController.update_recent_videos(subreddits)
   puts "Videos for #{subreddits.join(", ")} successfully updated!"
 when "--init" # Init (make new subreddit)
