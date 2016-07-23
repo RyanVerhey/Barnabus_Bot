@@ -34,6 +34,13 @@ class YouTube
     YAML.load(channel_list.body)["items"][0]["id"]
   end
 
+  def self.get_channel_name(channel_username)
+    channel_list = CLIENT.execute(:key => KEY,
+                                  :api_method => API.channels.list,
+                                  :parameters => { forUsername: channel_username, part: "snippet" })
+    YAML.load(channel_list.body)["items"][0]["snippet"]["title"]
+  end
+
   def self.get_new_recent_videos_for_youtube_channel_and_subreddit(channel:, subreddit:)
     puts "Fetching #{channel}'s videos from YouTube..."
     assignment = ChannelAssignment.find_by(youtube_channel: channel,
