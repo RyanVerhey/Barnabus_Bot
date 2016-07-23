@@ -4,28 +4,77 @@ input = ARGV
 subreddits_input = input[1].to_s.split ","
 subreddits = Subreddit.where name: subreddits_input
 
-case input.first
-when "--run" # Run & Post
-  RunController.post_new_videos(subreddits)
-when "--update" # Run (update)
-  RunController.update_recent_videos(subreddits)
-  puts "Videos for #{subreddits.join(", ")} successfully updated!"
-when "--init" # Init (make new subreddit)
-  InitController.new_subreddit(subreddits_input.first)
-when "--add-channel" # Add a YoutubeChannel to a subreddit
-  # Add a YoutubeChannel to a subreddit
-when "--delete-channel" # Delete a YoutubeChannel from a subreddit
-  # Delete a YoutubeChannel from a subreddit
-when "--add-subreddit" # Add a Subreddit
-  # Add a subreddit
-when "--delete-subreddit" # Delete a Subreddit
-  # Delete a subreddit
-when "--clean-videos" # Cleans up videos without channels
-  # Cleans up videos without channels
-when "-h", "--help" # Help
-  HelpController.help
-else
-  puts "That command is not recognized. Use the '-h' switch for a list of commands."
+COMMANDS = {
+  "--run" => {
+    desc: "Run & Post to Reddit",
+    format: "subreddit_name(,subreddit_name)",
+    action: ->{
+      RunController.post_new_videos(subreddits)
+    }
+  },
+  "--update" => {
+    desc: "Update the DB without posting to Reddit",
+    format: "subreddit_name(,subreddit_name)",
+    action: ->{
+      RunController.update_recent_videos(subreddits)
+      puts "Videos for #{subreddits.join(", ")} successfully updated!"
+    }
+  },
+  "--init" => {
+    desc: "Make a new subreddit. Follow the directions",
+    format: "subreddit_name",
+    action: ->{
+      puts "Videos for #{subreddits.join(", ")} successfully updated!"
+    }
+  },
+  "--add-channel" => {
+    desc: "Add a YouTube Channel to an existing subreddit",
+    format: "subreddit_name",
+    action: ->{
+      # Add a YoutubeChannel to a subreddit
+      puts "To be implemented later."
+    }
+  },
+  "--delete-channel" => {
+    desc: "Delete a YouTube Channel from an existing subreddit",
+    format: "subreddit_name",
+    action: ->{
+      # Delete a YoutubeChannel from a subreddit
+      puts "To be implemented later."
+    }
+  },
+  "--delete-subreddit" => {
+    desc: "Delete a subreddit",
+    format: "subreddit_name",
+    action: ->{
+      # Delete a subreddit
+      puts "To be implemented later."
+    }
+  },
+  "--clean-videos" => {
+    desc: "Still figuring this one out",
+    format: "",
+    action: ->{
+      # ??
+      puts "To be implemented later."
+    }
+  },
+  "--help" => {
+    desc: "I hope you know what this does :)",
+    format: "",
+    action: ->{
+      HelpController.help
+    }
+  }
+}
+ALIASES = {
+  "-h" => COMMANDS["--help"]
+}
+COMMANDS.merge! ALIASES
+
+command = COMMANDS[input.first] || ALIASES[input.first]
+if command
+  command[:action].call
 end
 
 # case
