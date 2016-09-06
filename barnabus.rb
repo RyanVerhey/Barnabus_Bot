@@ -67,11 +67,11 @@ COMMANDS = {
     }
   }
 }
-ALIASES = {
+COMMAND_ALIASES = {
   "-h" => COMMANDS["--help"]
 }
 
-command = COMMANDS[input.first] || ALIASES[input.first]
+command = COMMANDS[input.first] || COMMAND_ALIASES[input.first]
 if command
   command[:action].call
 else
