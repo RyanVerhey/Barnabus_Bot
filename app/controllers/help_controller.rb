@@ -8,10 +8,12 @@ class HelpController
         length
       end
     end
+    aliases = COMMAND_ALIASES.invert
 
     COMMANDS.each do |command,options|
       command_format = "#{command} #{options[:format]}"
       puts "#{command_format.ljust(command_top_length)} # #{options[:desc]}"
+      puts "  [#{aliases[options]}]\n" if aliases[options]
     end
   end
 end
