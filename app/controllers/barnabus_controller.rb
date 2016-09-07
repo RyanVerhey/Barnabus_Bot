@@ -91,10 +91,10 @@ class BarnabusController
     "-h" => Help
   }
 
-  def self.process_command(command, subreddits)
-    subclass = COMMANDS[command] || ALIASES[command]
-    if subclass
-      subclass.action subreddits
+  def self.process_command(input, subreddits)
+    command = COMMANDS[input] || ALIASES[input]
+    if command
+      command.action subreddits
     else
       puts "That command is not recognized. Type 'use --help' for a list of commands."
     end
