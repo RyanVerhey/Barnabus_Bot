@@ -83,7 +83,6 @@ class BarnabusController
     "--delete-subreddit" => DeleteSubreddit,
     "--clean-videos"     => CleanVideos,
     "--help"             => Help
-    # "-h"                 => Help
   }
   COMMAND_ALIASES = {
     "-h" => Help
