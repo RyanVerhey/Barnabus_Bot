@@ -1,95 +1,102 @@
 class BarnabusController
-  COMMANDS = {
-    "--run" => {
-      desc: "Run & Post to Reddit",
-      format: "subreddit_name(,subreddit_name)",
-      action: :run
-    },
-    "--update" => {
-      desc: "Update the DB without posting to Reddit",
-      format: "subreddit_name(,subreddit_name)",
-      action: :update
-    },
-    "--init" => {
-      desc: "Make a new subreddit. Follow the directions",
-      format: "subreddit_name",
-      action: :init
-    },
-    "--add-channel" => {
-      desc: "Add a YouTube Channel to an existing subreddit",
-      format: "subreddit_name",
-      action: :add_channel
-    },
-    "--delete-channel" => {
-      desc: "Delete a YouTube Channel from an existing subreddit",
-      format: "subreddit_name",
-      action: :delete_channel
-    },
-    "--delete-subreddit" => {
-      desc: "Delete a subreddit",
-      format: "subreddit_name",
-      action: :delete_channel
-    },
-    "--clean-videos" => {
-      desc: "Still figuring this one out",
-      format: "",
-      action: :clean_videos
-    },
-    "--help" => {
-      desc: "I hope you know what this does :)",
-      format: "",
-      action: :help
-    }
-  }
+  class Command
+    @@desc = nil
+    @@format = nil
+    def desc;    @@desc    end
+    def format;  @@format  end
+    def action(arg); end
+  end
 
-  COMMAND_ALIASES = {
-    "-h" => COMMANDS["--help"]
-  }
-
-  def self.process_command(command, subreddits)
-    options = COMMANDS[command] || COMMAND_ALIASES[command]
-    if options
-      self.send options[:action], subreddits
-      # command[:action].call
-    else
-      puts "That command is not recognized. Type 'use --help' for a list of commands."
+  class Run < Command
+    @@desc = "Run & Post to Reddit"
+    @@format = "subreddit_name(,subreddit_name)"
+    def self.action(subreddits)
+      RunController.post_new_videos(subreddits)
     end
   end
 
-  def self.run(subreddits)
-    RunController.post_new_videos(subreddits)
+  class Update < Command
+    @@desc = "Update the DB without posting to Reddit"
+    @@format = "subreddit_name(,subreddit_name)"
+    def self.action(subreddits)
+      RunController.update_recent_videos(subreddits)
+      puts "Videos for #{subreddits.join(", ")} successfully updated!"
+    end
   end
 
-  def self.update(subreddits)
-    RunController.update_recent_videos(subreddits)
-    puts "Videos for #{subreddits.join(", ")} successfully updated!"
+  class Init < Command
+    @@desc = "Make a new subreddit. Follow the directions"
+    @@format = "subreddit_name"
+    def self.action(subreddits)
+      InitController.new_subreddit(subreddits_input.first)
+    end
   end
 
-  def self.init(subreddits)
-    puts "Videos for #{subreddits.join(", ")} successfully updated!"
+  class AddChannel < Command
+    @@desc = "Add a YouTube Channel to an existing subreddit"
+    @@format = "subreddit_name"
+    def self.action(subreddits)
+      # Add a YoutubeChannel to a subreddit
+      puts "To be implemented later."
+    end
   end
 
-  def self.add_channel(subreddits)
-    # Add a YoutubeChannel to a subreddit
-    puts "To be implemented later."
+  class DeleteChannel < Command
+    @@desc = "Delete a YouTube Channel from an existing subreddit"
+    @@format = "subreddit_name"
+    def self.action(subreddits)
+      # Delete a YoutubeChannel from a subreddit
+      puts "To be implemented later."
+    end
   end
 
-  def self.delete_channel(subreddits)
-    # Delete a YoutubeChannel from a subreddit
-    puts "To be implemented later."
+  class DeleteSubreddit < Command
+    @@desc = "Delete a subreddit"
+    @@format = "subreddit_name"
+    def self.action(subreddits)
+      # Delete a subreddit
+      puts "To be implemented later."
+    end
   end
 
-  def self.delete_subreddit(subreddits)
-    # Delete a subreddit
-    puts "To be implemented later."
+  class CleanVideos < Command
+    @@desc = "Still figuring this one out"
+    @@format = ""
+    def self.action(subreddits)
+      # ??
+      puts "To be implemented later."
+    end
   end
 
-  def self.clean_videos(subreddits)
-    # ??
-    puts "To be implemented later."
+  class Help < Command
+    @@desc = "I hope you know what this does :)"
+    @@format = ""
+    def self.action(subreddits)
+      HelpController.help
+    end
   end
 
-  def self.help(subreddits)
-    HelpController.help
+  COMMANDS = {
+    "--run"              => Run,
+    "--update"           => Update,
+    "--init"             => Init,
+    "--add-channel"      => AddChannel,
+    "--delete-channel"   => DeleteChannel,
+    "--delete-subreddit" => DeleteSubreddit,
+    "--clean-videos"     => CleanVideos,
+    "--help"             => Help
+    # "-h"                 => Help
+  }
+  ALIASES = {
+    "-h" => Help
+  }
+
+  def self.process_command(command, subreddits)
+    subclass = COMMANDS[command] || ALIASES[command]
+    if subclass
+      subclass.action subreddits
+    else
+      puts "That command is not recognized. Type 'use --help' for a list of commands."
+    end
   end
 end
