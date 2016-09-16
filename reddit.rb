@@ -25,9 +25,7 @@ class Reddit
     if title.nil? || message.nil? || sr.nil?
       raise "You need to have a post title, a message, and a subreddit defined!"
     else
-      data = Reddit.login
-      modhash = data[0]
-      cookie = data[1]
+      modhash, cookie = Reddit.login
       kind = link ? "link" : "self"
       url = link ? message : false
       text = link ? false : message
@@ -40,13 +38,14 @@ class Reddit
         save: save,
         resubmit: resubmit,
         api_type: 'json',
+        extension: 'json',
         uh: modhash,
       }, headers: {
         'User-Agent' => 'Barnabus_Bot, proudly built by /u/GildedGrizzly',
         'X-Modhash' => modhash,
         'Cookie' => 'reddit_session=' + cookie
       } }
-      response = Reddit.post('http://www.reddit.com/api/submit', options)
+      response = Reddit.post('https://ssl.reddit.com/api/submit', options)
     end
   end
 
@@ -55,7 +54,8 @@ class Reddit
     username = account_info[:username]
     password = ENV[account_info[:password_var]]
     options = { body: { user: username, passwd: password, api_type: 'json' } }
-    response = Reddit.post("http://www.reddit.com/api/login/", options)
+    options[:headers] = { 'User-Agent' => 'Barnabus_Bot, proudly built by /u/GildedGrizzly' }
+    response = Reddit.post("https://ssl.reddit.com/api/login/", options)
     begin
       data = response['json']['data']
     rescue
