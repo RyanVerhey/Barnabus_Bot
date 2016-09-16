@@ -54,13 +54,14 @@ class Reddit
         save: save,
         resubmit: resubmit,
         api_type: 'json',
+        extension: 'json',
         uh: @modhash,
       }, headers: {
         'User-Agent' => 'Barnabus_Bot, proudly built by /u/GildedGrizzly',
         'X-Modhash' => @modhash,
         'Cookie' => 'reddit_session=' + @cookie
       } }
-      response = Reddit.post('http://www.reddit.com/api/submit', options)
+      response = Reddit.post('https://ssl.reddit.com/api/submit', options)
     end
   end
 
