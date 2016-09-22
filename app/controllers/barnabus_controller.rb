@@ -96,4 +96,16 @@ class BarnabusController
       puts "That command is not recognized. Type 'use --help' for a list of commands."
     end
   end
+
+  def self.commands
+    commands = COMMANDS.keys
+    inv_comm = COMMANDS.invert
+    inv_alias = COMMAND_ALIASES.invert
+
+    inv_alias.each do |command_class,alias_name|
+      command = inv_comm[command_class]
+      index = commands.delete(command)
+      commands.insert(index, [command, alias_name])
+    end
+  end
 end
