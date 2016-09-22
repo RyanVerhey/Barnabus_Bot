@@ -34,7 +34,7 @@ class BarnabusController
     def self.desc; "Add a YouTube Channel to an existing subreddit" end
     def self.arg_format; "subreddit_name" end
     def self.action(subreddits:, input:)
-      # Add a YoutubeChannel to a subreddit
+      AddChannelController.add_channel(input.first)
       puts "To be implemented later."
     end
   end
