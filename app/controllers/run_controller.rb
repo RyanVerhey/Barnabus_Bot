@@ -1,5 +1,6 @@
 class RunController
   def self.update_recent_videos(subreddits)
+    subreddits.delete_if { |sr| sr.is_a? String }
     subreddits.each do |subreddit|
       subreddit.channels.each do |channel|
         new_recents = YouTube.get_new_recent_videos_for_youtube_channel_and_subreddit(channel: channel, subreddit: subreddit)
@@ -19,6 +20,7 @@ class RunController
   end
 
   def self.post_new_videos(subreddits)
+    subreddits.delete_if { |sr| sr.is_a? String }
     subreddits.each do |subreddit|
       new_vids = {}
       subreddit.channels.each do |channel|
