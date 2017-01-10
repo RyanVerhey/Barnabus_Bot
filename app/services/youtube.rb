@@ -1,3 +1,4 @@
+require './app/services/video_service_base.rb'
 class YouTube < VideoServiceBase
 
   attr_reader :recent_videos
