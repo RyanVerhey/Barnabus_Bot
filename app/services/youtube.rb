@@ -37,6 +37,14 @@ class YouTube < VideoServiceBase
     YAML.load(channel_list.body)["items"][0]["snippet"]["title"]
   end
 
+  def self.initialize_channel(name)
+    YoutubeChannel.find_or_create_by(
+      id: YouTube.get_channel_id(name),
+      username: name,
+      name: YouTube.get_channel_name(name)
+    )
+  end
+
   def self.get_new_recent_videos(channel:, subreddit:)
     puts "Fetching #{channel}'s videos from YouTube..."
     assignment = ChannelAssignment.find_by(channel: channel,
