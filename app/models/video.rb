@@ -3,10 +3,6 @@ class Video < ActiveRecord::Base
 
   belongs_to :channel
 
-  def url
-    "https://www.youtube.com/watch?v=" + id
-  end
-
   def self.without_associated_channel
     all.select { |video| video.channels.empty? }
   end
