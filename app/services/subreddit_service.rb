@@ -20,7 +20,7 @@ class SubredditService
   def self.post_new_videos(subreddit)
     new_vids = {}
     subreddit.channels.each do |channel|
-      new_vids[channel.to_s] = new_videos(subreddit: subreddit, channel: channel)
+      new_vids[channel.id] = new_videos(subreddit: subreddit, channel: channel)
     end
 
     reddit = Reddit.new(subreddit.account)
@@ -31,7 +31,7 @@ class SubredditService
     end
 
     subreddit.channels.each do |channel|
-      channel.videos += new_vids[channel.to_s]
+      channel.videos += new_vids[channel.id]
       channel.save
     end
 
