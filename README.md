@@ -14,3 +14,15 @@ VODs from Twitch channels can be posted to Reddit now!
 * Massive refactoring changes, no file was left unchanged
 * There were some changes made to the Reddit posting API, so those changes were integrated
 * Tried to go for an [MVC](https://en.wikipedia.org/wiki/Model–view–controller) feel, although in this case it's just MC
+
+###### Helpful formatting tips
+Adding channels `.yml` formatting:
+```yml
+channels:
+  - name: channel_username
+    regexp: '.+'
+    type: twitch
+  - name: other_channel_username
+    regexp: '\sother'
+    type: youtube
+```
