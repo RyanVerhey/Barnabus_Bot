@@ -31,15 +31,15 @@ data[:reddits].each do |reddit_name, reddit|
     channel[:recents].each do |recent|
       recent["published_at"] = DateTime.iso8601(recent["published_at"])
       recent.delete("url")
-      vid = Video.new(
+      vid = YoutubeVideo.new(
         recent
       )
-      unless Video.exists? vid.id
+      unless YoutubeVideo.exists? vid.id
         vid.save!
         ytc.videos << vid
       end
 
-      vid = Video.find(vid.id)
+      vid = YoutubeVideo.find(vid.id)
       post = RedditPost.create(
         video: vid,
         subreddit: sr
