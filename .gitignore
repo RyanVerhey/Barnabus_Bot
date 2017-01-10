@@ -4,3 +4,4 @@ log.log
 config/variables.rb
 config/database.yaml
 db/schema.rb
+*.sublime-workspace
