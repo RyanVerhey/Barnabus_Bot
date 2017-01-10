@@ -31,7 +31,7 @@ class BarnabusController
   end
 
   class AddChannel < Command
-    def self.desc; "Add a YouTube Channel to an existing subreddit" end
+    def self.desc; "Add a Channel to an existing subreddit" end
     def self.arg_format; "subreddit_name" end
     def self.action(subreddits:, arguments:)
       # Add a Channel to a subreddit
@@ -40,7 +40,7 @@ class BarnabusController
   end
 
   class DeleteChannel < Command
-    def self.desc; "Delete a YouTube Channel from an existing subreddit" end
+    def self.desc; "Delete a Channel from an existing subreddit" end
     def self.arg_format; "subreddit_name" end
     def self.action(subreddits:, arguments:)
       # Delete a YoutubeChannel from a subreddit
