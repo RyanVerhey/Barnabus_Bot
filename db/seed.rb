@@ -26,7 +26,7 @@ data[:reddits].each do |reddit_name, reddit|
       username: channel_username.to_s,
       name: YouTube.get_channel_name(channel_username)
     )
-    assignment.youtube_channel = ytc
+    assignment.channel = ytc
 
     channel[:recents].each do |recent|
       recent["published_at"] = DateTime.iso8601(recent["published_at"])

@@ -1,7 +1,7 @@
 class Video < ActiveRecord::Base
   self.primary_key = "id"
 
-  belongs_to :channel, class_name: "YoutubeChannel"
+  belongs_to :channel
 
   def url
     "https://www.youtube.com/watch?v=" + id

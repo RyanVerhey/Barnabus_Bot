@@ -1,10 +1,3 @@
-class YoutubeChannel < ActiveRecord::Base
-  has_many :videos
-  has_many :channel_assignments
-  has_many :subreddits, through: :channel_assignments
-  accepts_nested_attributes_for :channel_assignments
+class YoutubeChannel < Channel
 
-  def to_s
-    self.name
-  end
 end

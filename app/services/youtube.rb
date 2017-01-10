@@ -43,7 +43,7 @@ class YouTube
 
   def self.get_new_recent_videos_for_youtube_channel_and_subreddit(channel:, subreddit:)
     puts "Fetching #{channel}'s videos from YouTube..."
-    assignment = ChannelAssignment.find_by(youtube_channel: channel,
+    assignment = ChannelAssignment.find_by(channel: channel,
                                            subreddit: subreddit)
     regexp = assignment.regexp
 
