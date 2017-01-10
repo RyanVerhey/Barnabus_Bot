@@ -1,5 +1,5 @@
 require './app/services/video_service_base.rb'
-class Twitch  < VideoServiceBase
+class Twitch < VideoServiceBase
   include HTTParty
 
   CLIENT_ID = ENV['TWITCH_CLIENT_ID']
