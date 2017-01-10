@@ -3,7 +3,7 @@ class RunController
     subreddits.delete_if { |sr| sr.is_a? String }
     subreddits.each do |subreddit|
       subreddit.channels.each do |channel|
-        new_recents = YouTube.get_new_recent_videos_for_youtube_channel_and_subreddit(channel: channel, subreddit: subreddit)
+        new_recents = new_recent_videos(channel: channel, subreddit: subreddit)
 
         channel.videos += new_recents
         channel.save
@@ -24,7 +24,7 @@ class RunController
     subreddits.each do |subreddit|
       new_vids = {}
       subreddit.channels.each do |channel|
-        new_vids[channel.to_s] = YouTube.get_new_videos_for_subreddit_and_youtube_channel(subreddit: subreddit, channel: channel)
+        new_vids[channel.to_s] = new_videos(subreddit: subreddit, channel: channel)
       end
 
       reddit = Reddit.new(subreddit.account)
@@ -49,6 +49,28 @@ class RunController
       end
 
       puts "" # To put a line break in between subreddits
+    end
+  end
+
+  def self.service_class_for_channel(channel)
+    case channel
+    when YoutubeChannel
+      YouTube
+    when TwitchChannel
+      Twitch
+    else
+      VideoServiceBase
+    end
+  end
+
+  def self.new_recent_videos(channel:, subreddit:)
+    klass = service_class_for_channel(channel)
+    klass.get_new_recent_videos(channel: channel, subreddit: subreddit)
+  end
+
+  def self.new_videos(channel:, subreddit:)
+    self.new_recent_videos(channel: channel, subreddit: subreddit).reject do |v|
+      RedditPost.find_by(subreddit: subreddit, video: v)
     end
   end
 end
