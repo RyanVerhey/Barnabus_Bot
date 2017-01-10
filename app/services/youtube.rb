@@ -20,11 +20,6 @@ class YouTube < VideoServiceBase
     @key = ENV['YTKEY']
     @channels = data.fetch(:channels, {})
     @recent_videos = recent_vids
-    @new_videos = new_vids if data[:fetch_new]
-  end
-
-  def new_videos
-    @new_videos ||= new_vids
   end
 
   def self.get_channel_id(channel_username)
@@ -74,16 +69,10 @@ class YouTube < VideoServiceBase
     videos
   end
 
-  def self.get_new_videos_for_subreddit_and_youtube_channel(subreddit:, channel:)
-    new_recents = YouTube.get_new_recent_videos_for_youtube_channel_and_subreddit(channel: channel, subreddit: subreddit)
-
-    new_recents.reject { |v| RedditPost.where(subreddit: subreddit, video_id: v.id).first }
-  end
-
   private
 
   def self.video_object_from_youtube_video_data(video)
-    vid = Video.find_or_initialize_by id: video["id"]
+    vid = YoutubeVideo.find_or_initialize_by id: video["id"]
 
     vid.attributes = {
       title: video["snippet"]["title"],
