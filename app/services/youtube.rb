@@ -70,6 +70,14 @@ class YouTube < VideoServiceBase
     videos
   end
 
+  def self.channel
+    YoutubeChannel
+  end
+
+  def self.video
+    YoutubeVideo
+  end
+
   private
 
   def self.video_object_from_youtube_video_data(video)

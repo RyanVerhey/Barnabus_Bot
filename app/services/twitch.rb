@@ -9,4 +9,12 @@ class Twitch  < VideoServiceBase
   def self.get_new_recent_videos(channel:, subreddit:)
     # get new recent videos
   end
+
+  def self.channel
+    TwitchChannel
+  end
+
+  def self.video
+    TwitchVideo
+  end
 end
