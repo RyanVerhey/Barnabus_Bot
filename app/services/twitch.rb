@@ -1,4 +1,4 @@
-class Twitch
+class Twitch  < VideoServiceBase
   include HTTParty
 
   def initialize

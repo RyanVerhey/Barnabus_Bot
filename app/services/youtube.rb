@@ -1,4 +1,4 @@
-class YouTube
+class YouTube < VideoServiceBase
 
   attr_reader :recent_videos
 
