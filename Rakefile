@@ -9,7 +9,7 @@ namespace :db do
 
   desc "Create the database"
   task :create do
-    ActiveRecord::Base.establish_connection(db_config_admin)
+    ActiveRecord::Base.establish_connection(db_config.except('database'))
     ActiveRecord::Base.connection.create_database(db_config["database"])
     puts "Database created."
   end
