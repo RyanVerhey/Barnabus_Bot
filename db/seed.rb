@@ -21,7 +21,7 @@ data[:reddits].each do |reddit_name, reddit|
     assignment = sr.channel_assignments.build
     assignment.regexp = channel[:regexp]
 
-    ytc = YoutubeChannel.create(
+    ytc = YoutubeChannel.find_or_create_by(
       id: YouTube.get_channel_id(channel_username.to_s),
       username: channel_username.to_s,
       name: YouTube.get_channel_name(channel_username)
