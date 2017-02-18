@@ -24,7 +24,7 @@ namespace :db do
 
   desc "Drop the database"
   task :drop do
-    ActiveRecord::Base.establish_connection(db_config_admin)
+    ActiveRecord::Base.establish_connection(db_config)
     ActiveRecord::Base.connection.drop_database(db_config["database"])
     puts "Database deleted."
   end
