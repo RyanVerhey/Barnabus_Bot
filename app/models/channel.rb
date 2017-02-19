@@ -6,6 +6,6 @@ class Channel < ActiveRecord::Base
   accepts_nested_attributes_for :channel_assignments
 
   def to_s
-    self.name
+    "#{ self.name } - #{ self.class.name.gsub "Channel", "" }"
   end
 end
