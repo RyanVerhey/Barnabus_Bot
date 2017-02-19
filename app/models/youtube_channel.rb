@@ -1,10 +1,4 @@
-class YoutubeChannel < ActiveRecord::Base
-  has_many :videos
-  has_many :channel_assignments
-  has_many :subreddits, through: :channel_assignments
-  accepts_nested_attributes_for :channel_assignments
-
-  def to_s
-    self.name
-  end
+require "#{ APP_DIR }/app/models/channel.rb"
+class YoutubeChannel < Channel
+  has_many :videos, class_name: 'YoutubeVideo', foreign_key: 'channel_id'
 end

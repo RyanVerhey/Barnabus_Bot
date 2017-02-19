@@ -1,3 +1,4 @@
+APP_DIR = File.dirname(File.expand_path(__FILE__))
 require_relative 'config/requires'
 
 # Found most the below at https://gist.github.com/schickling/6762581
@@ -9,7 +10,7 @@ namespace :db do
 
   desc "Create the database"
   task :create do
-    ActiveRecord::Base.establish_connection(db_config_admin)
+    ActiveRecord::Base.establish_connection(db_config.except('database'))
     ActiveRecord::Base.connection.create_database(db_config["database"])
     puts "Database created."
   end
@@ -24,7 +25,7 @@ namespace :db do
 
   desc "Drop the database"
   task :drop do
-    ActiveRecord::Base.establish_connection(db_config_admin)
+    ActiveRecord::Base.establish_connection(db_config)
     ActiveRecord::Base.connection.drop_database(db_config["database"])
     puts "Database deleted."
   end

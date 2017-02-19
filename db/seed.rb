@@ -21,25 +21,25 @@ data[:reddits].each do |reddit_name, reddit|
     assignment = sr.channel_assignments.build
     assignment.regexp = channel[:regexp]
 
-    ytc = YoutubeChannel.create(
+    ytc = YoutubeChannel.find_or_create_by(
       id: YouTube.get_channel_id(channel_username.to_s),
       username: channel_username.to_s,
       name: YouTube.get_channel_name(channel_username)
     )
-    assignment.youtube_channel = ytc
+    assignment.channel = ytc
 
     channel[:recents].each do |recent|
       recent["published_at"] = DateTime.iso8601(recent["published_at"])
       recent.delete("url")
-      vid = Video.new(
+      vid = YoutubeVideo.new(
         recent
       )
-      unless Video.exists? vid.id
+      unless YoutubeVideo.exists? vid.id
         vid.save!
         ytc.videos << vid
       end
 
-      vid = Video.find(vid.id)
+      vid = YoutubeVideo.find(vid.id)
       post = RedditPost.create(
         video: vid,
         subreddit: sr

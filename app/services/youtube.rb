@@ -1,4 +1,5 @@
-class YouTube
+require "#{ APP_DIR }/app/services/video_service_base.rb"
+class YouTube < VideoServiceBase
 
   attr_reader :recent_videos
 
@@ -20,11 +21,6 @@ class YouTube
     @key = ENV['YTKEY']
     @channels = data.fetch(:channels, {})
     @recent_videos = recent_vids
-    @new_videos = new_vids if data[:fetch_new]
-  end
-
-  def new_videos
-    @new_videos ||= new_vids
   end
 
   def self.get_channel_id(channel_username)
@@ -41,9 +37,16 @@ class YouTube
     YAML.load(channel_list.body)["items"][0]["snippet"]["title"]
   end
 
-  def self.get_new_recent_videos_for_youtube_channel_and_subreddit(channel:, subreddit:)
-    puts "Fetching #{channel}'s videos from YouTube..."
-    assignment = ChannelAssignment.find_by(youtube_channel: channel,
+  def self.initialize_channel(name)
+    YoutubeChannel.find_or_create_by(
+      id: YouTube.get_channel_id(name),
+      username: name,
+      name: YouTube.get_channel_name(name)
+    )
+  end
+
+  def self.get_new_recent_videos(channel:, subreddit:)
+    assignment = ChannelAssignment.find_by(channel: channel,
                                            subreddit: subreddit)
     regexp = assignment.regexp
 
@@ -74,16 +77,18 @@ class YouTube
     videos
   end
 
-  def self.get_new_videos_for_subreddit_and_youtube_channel(subreddit:, channel:)
-    new_recents = YouTube.get_new_recent_videos_for_youtube_channel_and_subreddit(channel: channel, subreddit: subreddit)
+  def self.channel
+    YoutubeChannel
+  end
 
-    new_recents.reject { |v| RedditPost.where(subreddit: subreddit, video_id: v.id).first }
+  def self.video
+    YoutubeVideo
   end
 
   private
 
   def self.video_object_from_youtube_video_data(video)
-    vid = Video.find_or_initialize_by id: video["id"]
+    vid = YoutubeVideo.find_or_initialize_by id: video["id"]
 
     vid.attributes = {
       title: video["snippet"]["title"],

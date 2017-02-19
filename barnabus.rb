@@ -1,9 +1,14 @@
-require_relative 'config/initialize'
+APP_DIR = File.dirname(File.expand_path(__FILE__))
+require_relative "#{ APP_DIR }/config/initialize"
 
 input = ARGV
-subreddit_inputs = input[1].to_s.split ","
-subreddits = Subreddit.where name: subreddit_inputs
+command = input.shift
+subreddit_inputs = input.shift.to_s.split ","
+subreddits = subreddit_inputs.map do |subreddit_input|
+  Subreddit.where(name: subreddit_inputs).first || subreddit_input
+end
+arguments = input
 
-BarnabusController.process_command command: input.first,
+BarnabusController.process_command command: command,
                                    subreddits: subreddits,
-                                   input: subreddit_inputs
+                                   arguments: arguments
