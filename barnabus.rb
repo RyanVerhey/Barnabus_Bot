@@ -1,4 +1,5 @@
-require_relative 'config/initialize'
+APP_DIR = File.dirname(File.expand_path(__FILE__))
+require_relative "#{ APP_DIR }/config/initialize"
 
 input = ARGV
 command = input.shift
