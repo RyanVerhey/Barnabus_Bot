@@ -2,10 +2,7 @@ class RunController
   def self.update_recent_videos(subreddits)
     subreddits.delete_if { |sr| sr.is_a? String }
     subreddits.each do |subreddit|
-      channels ||= subreddit.channels
-      channels.each do |channel|
-        SubredditService.update_subreddit(subreddit)
-      end
+      SubredditService.update_subreddit(subreddit)
 
       puts "" # To put a line break in between subreddits
     end
