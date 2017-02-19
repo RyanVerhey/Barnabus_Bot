@@ -1,4 +1,4 @@
-require './app/services/video_service_base.rb'
+require "#{ APP_DIR }/app/services/video_service_base.rb"
 class Twitch < VideoServiceBase
   include HTTParty
 
