@@ -1,3 +1,4 @@
+APP_DIR ||= File.dirname(File.expand_path(__FILE__)).split('/')[0..-2].join('/')
 require_relative "#{ APP_DIR }/config/requires"
 
 ActiveRecord::Base.establish_connection(
