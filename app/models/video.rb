@@ -11,4 +11,8 @@ class Video < ActiveRecord::Base
     Video.new(upload.video_id, video.published_at, video.title, video.author.uri.split("/").last)
   end
 
+  def to_s
+    "#{ title } - #{ channel } (#{ id })"
+  end
+
 end

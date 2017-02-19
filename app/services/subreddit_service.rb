@@ -3,6 +3,7 @@ class SubredditService
     channels ||= subreddit.channels
     channels = Array(channels)
     channels.each do |channel|
+      puts "Updating videos for #{ channel }..."
       new_recents = new_recent_videos(channel: channel, subreddit: subreddit)
 
       channel.videos += new_recents
@@ -20,6 +21,7 @@ class SubredditService
   def self.post_new_videos(subreddit)
     new_vids = {}
     subreddit.channels.each do |channel|
+      puts "Getting new vids for #{ channel }..."
       new_vids[channel.id] = new_videos(subreddit: subreddit, channel: channel)
     end
 
@@ -27,6 +29,7 @@ class SubredditService
     reddit.login
     posted_successfully = {}
     new_vids.values.flatten.each do |vid|
+      puts "Posting #{ vid }..."
       posted_successfully[vid.id] = reddit.submit_video video: vid, subreddit: subreddit
     end
 

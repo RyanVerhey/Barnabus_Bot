@@ -24,7 +24,7 @@ class Reddit
   def submit_video(video:, subreddit:)
     response = submit title: video.title, message: video.url, subreddit: subreddit
     if !response["json"]["errors"].first
-      puts "Video posted: #{video.id}"
+      puts "Video posted: #{ video }"
       puts "#{response["json"]["data"]["url"]}"
       return true
     elsif response["json"]["errors"].first && response["json"]["errors"].first.try(:first) == "ALREADY_SUB"
