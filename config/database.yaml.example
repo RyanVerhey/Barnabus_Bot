@@ -1,0 +1,14 @@
+---
+development:
+  adapter:  mysql
+  host:     localhost
+  username: user_name
+  password: password
+  database: db_name
+
+production:
+  adapter:  mysql
+  host:     localhost
+  username: user_name
+  password: password
+  database: db_name

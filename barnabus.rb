@@ -1,62 +1,14 @@
-require 'rubygems'
-require 'bundler/setup'
-require 'google/api_client'
-require 'net/http'
-require 'httparty'
-require 'json'
-require 'yaml'
-require_relative 'video'
-require_relative 'read_write'
-require_relative 'reddit'
-require_relative 'youtube'
+APP_DIR = File.dirname(File.expand_path(__FILE__))
+require_relative "#{ APP_DIR }/config/initialize"
 
 input = ARGV
-REDDITNAME = input[1].to_sym if input[1]
-
-case
-when !ENV["YTKEY"] && !ENV["PASS"]
-  raise "You need to set the YouTube API Key and the Reddit password!"
-when !ENV["YTKEY"]
-  raise "You need to set the YouTube API Key!"
-when !ENV["PASS"]
-  raise "You need to set the Reddit password!"
+command = input.shift
+subreddit_inputs = input.shift.to_s.split ","
+subreddits = subreddit_inputs.map do |subreddit_input|
+  Subreddit.where(name: subreddit_inputs).first || subreddit_input
 end
+arguments = input
 
-case input.first
-when "-r", "-u" # Run, Update
-  DATA = ReadWrite.load_data
-
-  if DATA[:reddits][REDDITNAME]
-    puts "Getting videos for /r/#{REDDITNAME.to_s}..."
-    yt = YouTube.new channels: DATA[:reddits][REDDITNAME][:channels]
-
-    case input.first
-    when "-r" # Run
-      if yt.new_videos.empty?
-        puts "No new videos to post!"
-      else
-        yt.new_videos.each do |video|
-          Reddit.submit_video video
-        end
-        ReadWrite.write_recent_vids(recents: yt.recent_videos, reddit: REDDITNAME)
-      end
-
-    when "-u" # Update
-      ReadWrite.write_recent_vids(recents: yt.recent_videos, reddit: REDDITNAME)
-      puts "Recent videos for #{REDDITNAME.to_s} successfully updated!"
-
-    end
-
-  else
-    puts "That subreddit hasn't been saved yet."
-  end
-
-when "help" #Help
-  puts "Hi, I'm Barnabus! Here's a list of my commands:"
-  puts "  '-r subreddit':   Searches for new videos and posts them to reddit."
-  puts "  '-u subreddit':   Only updates the most recent videos in the database, doesn't post anything to reddit. If it is a new channel/subreddit, initializes the values."
-  puts "  'help':           I hope you know what this does :)"
-
-else
-  puts "That command is not recognized. Type 'help' for a list of commands."
-end
+BarnabusController.process_command command: command,
+                                   subreddits: subreddits,
+                                   arguments: arguments
