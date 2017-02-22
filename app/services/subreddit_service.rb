@@ -59,6 +59,15 @@ class SubredditService
     end
   end
 
+  def self.channel_for_channel_type(type)
+    case type.downcase
+    when 'youtube'
+      YoutubeChannel
+    when 'twitch'
+      TwitchChannel
+    end
+  end
+
   def self.new_recent_videos(channel:, subreddit:)
     klass = service_class_for_channel(channel)
     klass.get_new_recent_videos(channel: channel, subreddit: subreddit)
