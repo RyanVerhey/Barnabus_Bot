@@ -26,7 +26,7 @@ class BarnabusController
     def self.desc; "Make a new subreddit. Follow the directions" end
     def self.arg_format; "subreddit_name" end
     def self.action(subreddits:, arguments:)
-      InitController.new_subreddit(subreddits.first)
+      InitController.new_subreddit(subreddits.first, arguments)
     end
   end
 
