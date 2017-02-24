@@ -8,10 +8,6 @@ class Channel < ActiveRecord::Base
   attr_accessor :regexp
 
   def to_s
-    "#{ self.name } - #{ self.class }"
-  end
-
-  def self.to_s
-    self.name.gsub "Channel", ""
+    "#{ self.name } - #{ self.class.name.gsub("Channel", "") }"
   end
 end
