@@ -23,25 +23,37 @@ class YouTube < VideoServiceBase
     @recent_videos = recent_vids
   end
 
-  def self.get_channel_id(channel_username)
-    channel_list = CLIENT.execute(:key => KEY,
-                                  :api_method => API.channels.list,
-                                  :parameters => { forUsername: channel_username, part: "id" })
-    YAML.load(channel_list.body)["items"][0]["id"]
+  def self.get_channel_id(username)
+    youtube_channel_data(username: username)[:id]
   end
 
-  def self.get_channel_name(channel_username)
+  def self.get_channel_name(username: nil, id: nil)
+    youtube_channel_data(username: username, id: id)[:name]
+  end
+
+  def self.youtube_channel_data(username: nil, id: nil)
+    parameters = { part: 'snippet' }
+    if username
+      parameters['forUsername'] = username
+    elsif
+      parameters['id'] = id
+    end
     channel_list = CLIENT.execute(:key => KEY,
                                   :api_method => API.channels.list,
-                                  :parameters => { forUsername: channel_username, part: "snippet" })
-    YAML.load(channel_list.body)["items"][0]["snippet"]["title"]
+                                  :parameters => parameters)
+    channel_data = YAML.load(channel_list.body)["items"][0]
+
+    { id: channel_data['id'],
+      name: channel_data['snippet']['title'],
+      description: channel_data['snippet']['description'] }
   end
 
   def self.initialize_channel(name)
+    channel_data = youtube_channel_data(username: name)
     YoutubeChannel.find_or_create_by(
-      id: YouTube.get_channel_id(name),
+      id: channel_data[:id],
       username: name,
-      name: YouTube.get_channel_name(name)
+      name: channel_data[:name]
     )
   end
 
