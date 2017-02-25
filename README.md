@@ -3,7 +3,7 @@ Barnabus_Bot
 
 Auto-posting bot for the [/r/YogscastKim](http://reddit.com/r/yogscastkim) subreddit. Posts videos from the YogscastKim YouTube and Twitch channels, as well as videos that feature Kim, to the subreddit.
 
-#### New in version 3.0.0!
+#### New in version 3!
 Wow! This is a big release.
 
 ###### Twitch Integration
@@ -16,6 +16,22 @@ VODs from Twitch channels can be posted to Reddit now!
 * Tried to go for an [MVC](https://en.wikipedia.org/wiki/Model–view–controller) feel, although in this case it's just MC
 
 ###### Helpful formatting tips
+Adding subreddits `.yml` formatting:
+```yml
+subreddit:
+  name: subreddit_name
+  reddit_account:
+    name: reddit_account_to_use
+    password_var: VAR
+  channels:
+  - username: channel_1
+    regexp: '.+'
+    type: youtube
+  - username: channel_2
+    regexp: 'string'
+    type: youtube
+```
+
 Adding channels `.yml` formatting:
 ```yml
 channels:
