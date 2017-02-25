@@ -5,7 +5,9 @@ class Channel < ActiveRecord::Base
   has_many :subreddits, through: :channel_assignments
   accepts_nested_attributes_for :channel_assignments
 
+  attr_accessor :regexp
+
   def to_s
-    "#{ self.name } - #{ self.class.name.gsub "Channel", "" }"
+    "#{ self.name } - #{ self.class.name.gsub("Channel", "") }"
   end
 end
