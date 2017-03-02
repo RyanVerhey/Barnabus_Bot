@@ -78,4 +78,23 @@ class SubredditService
       RedditPost.find_by(subreddit: subreddit, video: v)
     end
   end
+
+  def self.add_tags_to_post_title(title:,subreddit:)
+    if subreddit.tags
+      matches = subreddit.tags[:matches]
+      regexps = matches.keys
+      tag = nil
+      regexps.each do |regexp|
+        if title.match regexp
+          tag = matches[regexp]
+          break
+        end
+      end
+      tag = subreddit.tags[:default] unless tag
+
+      "#{tag} #{title}"
+    else
+      title
+    end
+  end
 end
