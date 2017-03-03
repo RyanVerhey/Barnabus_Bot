@@ -1,4 +1,5 @@
 APP_DIR = File.dirname(File.expand_path(__FILE__))
+LOGGER = Logger.new STDOUT
 require_relative 'config/requires'
 
 # Found most the below at https://gist.github.com/schickling/6762581

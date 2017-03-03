@@ -1,4 +1,5 @@
 APP_DIR = File.dirname(File.expand_path(__FILE__))
+LOGGER = Logger.new File.open("#{APP_DIR}/log/barnabus.log")
 require_relative "#{ APP_DIR }/config/initialize"
 
 input = ARGV
