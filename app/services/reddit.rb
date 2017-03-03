@@ -30,7 +30,7 @@ class Reddit
       return true
     elsif response["json"]["errors"].first && response["json"]["errors"].first.try(:first) == "ALREADY_SUB"
       puts "Video #{video.id} (#{video.title}) from #{video.author} has already been posted to #{subreddit}"
-      return false
+      return true
     else
       puts "Something went wrong. Response: #{response}"
       return false
