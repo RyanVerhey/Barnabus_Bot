@@ -81,7 +81,7 @@ class SubredditService
 
   def self.add_tags_to_post_title(title:,subreddit:)
     if subreddit.tags
-      matches = subreddit.tags[:matches]
+      matches = subreddit.tags['match']
       regexps = matches.keys
       tag = nil
       regexps.each do |regexp|
@@ -90,7 +90,7 @@ class SubredditService
           break
         end
       end
-      tag = subreddit.tags[:default] unless tag
+      tag = subreddit.tags['default'] unless tag
 
       "#{tag} #{title}"
     else
