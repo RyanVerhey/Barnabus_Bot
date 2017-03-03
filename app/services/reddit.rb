@@ -22,7 +22,8 @@ class Reddit
   end
 
   def submit_video(video:, subreddit:)
-    response = submit title: video.title, message: video.url, subreddit: subreddit
+    post_title = SubredditService.add_tags_to_post_title(title: video.title, subreddit: subreddit)
+    response = submit title: post_title, message: video.url, subreddit: subreddit
     if !response["json"]["errors"].first
       puts "Video posted: #{ video }"
       puts "#{response["json"]["data"]["url"]}"

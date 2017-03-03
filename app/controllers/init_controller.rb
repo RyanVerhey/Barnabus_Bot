@@ -22,6 +22,17 @@ class InitController
   def instantiate_subreddit
     subreddit_data = @data['subreddit']
     subreddit = Subreddit.find_or_initialize_by(name: subreddit_data['name'])
+    tags = subreddit_data['tags']
+
+    if tags
+      tags['match'] = tags['match'].inject({}) do |hsh,(regexp,tag)|
+        regexp = Regexp.new(regexp, Regexp::IGNORECASE)
+        hsh[regexp] = tag
+        hsh
+      end
+    end
+    subreddit.tags = tags
+
     check_for_existing_subreddit subreddit
     subreddit
   end

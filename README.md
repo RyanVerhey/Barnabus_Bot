@@ -23,6 +23,11 @@ subreddit:
   reddit_account:
     name: reddit_account_to_use
     password_var: VAR
+  tags:
+    match:
+      "Title regexp": "[Tag]"
+      "(another|regexp)": "[Spoiler!]"
+    default: "[No Spoilers]"
   channels:
   - username: channel_1
     regexp: '.+'
