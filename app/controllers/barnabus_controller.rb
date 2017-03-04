@@ -18,7 +18,7 @@ class BarnabusController
     def self.arg_format; "subreddit_name(,subreddit_name)" end
     def self.action(subreddits:, arguments:)
       RunController.update_recent_videos(subreddits)
-      puts "Videos for #{subreddits.join(", ")} successfully updated!"
+      LOGGER.info "Videos for #{subreddits.join(", ")} successfully updated!"
     end
   end
 
@@ -90,6 +90,7 @@ class BarnabusController
   def self.process_command(command:, arguments:, subreddits:)
     command_class = COMMANDS[command] || COMMAND_ALIASES[command]
     if command_class
+      LOGGER.info "Running #{command_class} for #{Array(subreddits).join(",")}"
       command_class.action subreddits: subreddits, arguments: arguments
     else
       puts "That command is not recognized. Type 'use --help' for a list of commands."

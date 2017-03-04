@@ -39,7 +39,7 @@ class InitController
 
   def check_for_existing_subreddit(subreddit)
     unless subreddit.new_record?
-      puts "Subreddit #{ subreddit } already in database"
+      LOGGER.error "Subreddit #{ subreddit } already in database"
       exit
     end
   end

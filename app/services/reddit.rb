@@ -12,8 +12,7 @@ class Reddit
     begin
       data = response['json']['data']
     rescue
-      puts "Something went wrong logging into reddit. Here's the response:"
-      p response
+      LOGGER.error("Something went wrong logging into reddit. Here's the response:\n#{response}")
       raise "Error logging in to reddit"
     end
 
@@ -25,14 +24,13 @@ class Reddit
     post_title = SubredditService.add_tags_to_post_title(title: video.title, subreddit: subreddit)
     response = submit title: post_title, message: video.url, subreddit: subreddit
     if !response["json"]["errors"].first
-      puts "Video posted: #{ video }"
-      puts "#{response["json"]["data"]["url"]}"
+      LOGGER.info "Video posted: #{ video }\n#{response["json"]["data"]["url"]}"
       return true
     elsif response["json"]["errors"].first && response["json"]["errors"].first.try(:first) == "ALREADY_SUB"
-      puts "Video #{video.id} (#{video.title}) from #{video.author} has already been posted to #{subreddit}"
+      LOGGER.info "Video #{video.id} (#{video.title}) from #{video.author} has already been posted to #{subreddit}"
       return false
     else
-      puts "Something went wrong. Response: #{response}"
+      LOGGER.error "Something went wrong. Response: #{response}"
       return false
     end
   end
