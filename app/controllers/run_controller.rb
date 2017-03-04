@@ -4,8 +4,6 @@ class RunController
     subreddits.delete_if { |sr| sr.is_a? String }
     subreddits.each do |subreddit|
       SubredditService.update_subreddit(subreddit)
-
-      puts "" # To put a line break in between subreddits
     end
   end
 
@@ -14,8 +12,6 @@ class RunController
     subreddits.delete_if { |sr| sr.is_a? String }
     subreddits.each do |subreddit|
       SubredditService.post_new_videos(subreddit)
-
-      puts "" # To put a line break in between subreddits
     end
   end
 end

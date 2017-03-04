@@ -1,5 +1,7 @@
 APP_DIR = File.dirname(File.expand_path(__FILE__))
+BARNABUSRB = true
 require_relative "#{ APP_DIR }/config/initialize"
+LOGGER = BarnabusLogger.init
 
 input = ARGV
 command = input.shift
@@ -9,6 +11,12 @@ subreddits = subreddit_inputs.map do |subreddit_input|
 end
 arguments = input
 
-BarnabusController.process_command command: command,
-                                   subreddits: subreddits,
-                                   arguments: arguments
+begin
+  BarnabusController.process_command command: command,
+                                     subreddits: subreddits,
+                                     arguments: arguments
+
+rescue => e
+  LOGGER.fatal e
+  raise e
+end
