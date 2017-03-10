@@ -10,10 +10,11 @@ class SubredditService
       channel.save
 
       new_recents.each do |vid|
-        RedditPost.create(
+        rp = RedditPost.new(
           subreddit: subreddit,
           video: vid
         )
+        rp.save
       end
     end
   end
