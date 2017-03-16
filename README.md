@@ -47,3 +47,10 @@ channels:
     regexp: '\sother'
     type: youtube
 ```
+
+Deleting channels `.yml` formatting:
+  ```yml
+  channels:
+    - "channel_username"
+    - "channel_username2"
+  ```
