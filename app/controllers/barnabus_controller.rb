@@ -42,8 +42,7 @@ class BarnabusController
     def self.desc; "Delete a Channel from an existing subreddit" end
     def self.arg_format; "subreddit_name" end
     def self.action(subreddits:, arguments:)
-      # Delete a YoutubeChannel from a subreddit
-      puts "To be implemented later."
+      DeleteChannelController.delete_channel(subreddits, arguments)
     end
   end
 
