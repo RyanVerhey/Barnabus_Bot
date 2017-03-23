@@ -16,6 +16,8 @@ class SubredditService
         )
         rp.save
       end
+      LOGGER.info "Finished updating videos for #{subreddit}"
+      LOGGER.info ""
     end
   end
 
@@ -47,6 +49,10 @@ class SubredditService
         )
       end
     end
+    
+    info_str = new_vids.any? ? "Finished posting videos for #{subreddit}" : "No new videos to post to #{subreddit}"
+    LOGGER.info info_str
+    LOGGER.info ""
   end
 
   def self.service_class_for_channel(channel)
